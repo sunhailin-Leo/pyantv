@@ -1,0 +1,6 @@
+{
+  "antv@G2": ["@antv/g2/dist/g2.min", "js"],
+  "antv@DataSet": ["@antv/data-set@0.11.8/dist/data-set", "js"],
+  "topojson-client": ["topojson-client@3.1.0/dist/topojson-client.min", "js"],
+  "d3-geo-projection": ["d3-geo-projection@4.0.0/dist/d3-geo-projection.min", "js"]
+}

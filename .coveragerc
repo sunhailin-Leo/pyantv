@@ -1,0 +1,14 @@
+[run]
+omit =
+    pyantv/render/templates/*
+    setup.py
+    install.py
+    test.py
+    test/*
+
+[report]
+show_missing = True
+omit =
+    pyantv/render/templates/*
+    setup.py
+    install.py

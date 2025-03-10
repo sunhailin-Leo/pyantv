@@ -1,0 +1,4 @@
+include pyantv/datasets/*.json
+include pyantv/render/templates/*
+include README.md
+include changelog.md
