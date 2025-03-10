@@ -1,0 +1,10 @@
+nose2
+codecov
+coverage
+flake8
+mccabe
+Pillow
+pytest
+pytest-cov
+numpy
+pandas
