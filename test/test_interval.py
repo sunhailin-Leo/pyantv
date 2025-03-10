@@ -59,14 +59,15 @@ class TestIntervalChart(unittest.TestCase):
             .set_encode(
                 x_field_name="letter", y_field_name="frequency", shape_field="pyramid"
             )
-            .set_interval_style(min_width=2)
             .set_interval_style(
                 min_width=10,
                 max_width=20,
                 base_radius_inset_opts=opts.BaseChartRadiusInsetStyleOpts(
                     radius=0.1,
                 ),
-                base_style_opts=opts.BaseChartStyleOpts(
+            )
+            .set_global_options(
+                style_opts=opts.BaseChartStyleOpts(
                     opacity=0.5,
                 ),
             )
@@ -102,12 +103,14 @@ class TestIntervalChart(unittest.TestCase):
                     "text": "frequency",
                 },
             )
-            .set_text_style(
-                text_align="center",
-                base_style_opts=opts.BaseChartStyleOpts(
+            .set_global_options(
+                style_opts=opts.BaseChartStyleOpts(
                     fill="black",
                     dy=-5,
                 ),
+            )
+            .set_text_style(
+                text_align="center",
             )
         )
 

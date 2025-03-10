@@ -1741,6 +1741,18 @@ class TestGlobalOptions(unittest.TestCase):
             },
         )
 
+        obj = LabelOpts(
+            connector_style_opts=BaseChartStyleOpts(opacity=0.75),
+            background_style_opts=BaseChartStyleOpts(opacity=0.75),
+        )
+        self.assertEqual(
+            remove_key_with_none_value(obj.opts),
+            {
+                "connectorOpacity": 0.75,
+                "backgroundOpacity": 0.75,
+            }
+        )
+
     def test_interaction_mask_style_opts(self):
         obj = InteractionMaskStyleOpts()
         self.assertEqual(

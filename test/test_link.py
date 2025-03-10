@@ -105,11 +105,9 @@ class TestLinkChart(unittest.TestCase):
                         opts.TooltipItemOpts(field="High", name="high"),
                     ],
                 ),
+                style_opts=opts.BaseChartStyleOpts(stroke="black"),
             )
-            .set_link_style(
-                arrow_size=10,
-                base_style_opts=opts.BaseChartStyleOpts(stroke="black"),
-            )
+            .set_link_style(arrow_size=10)
         )
 
         link_2 = (

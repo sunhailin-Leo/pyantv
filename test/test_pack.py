@@ -91,16 +91,18 @@ class TestPackChart(unittest.TestCase):
                 )
             )
             .set_pack_layout(padding=5)
-            .set_global_options(legend_opts=False)
+            .set_global_options(
+                legend_opts=False,
+                style_opts=opts.BaseChartStyleOpts(
+                    stroke="#fff",
+                    line_width=1,
+                ),
+            )
             .set_pack_style(
                 label_style_opts=opts.BaseChartStyleOpts(
                     text=JsCode(
                         '(d) => (d.r >= 10 && d.height === 0 ? `${d.data.name}` : "")',
                     ),
-                ),
-                base_style_opts=opts.BaseChartStyleOpts(
-                    stroke="#fff",
-                    line_width=1,
                 ),
             )
         )

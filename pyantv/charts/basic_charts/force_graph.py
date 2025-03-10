@@ -28,11 +28,3 @@ class ForceGraph(Chart):
             }
         )
         return self
-
-    def set_force_graph_style(
-        self,
-        base_style_opts: types.Optional[types.BaseChartStyle] = None,
-    ):
-        self.options.update(style=base_style_opts)
-
-        return self

@@ -19,15 +19,11 @@ class Area(Chart):
         is_connect: types.Optional[bool] = None,
         connect_style_opts: types.Optional[types.BaseChartStyle] = None,
         is_defined: types.Optional[bool] = None,
-        base_style_opts: types.Optional[types.BaseChartStyle] = None,
     ):
         _inner_opts: types.Optional[dict] = {
             "connect": is_connect,
             "defined": is_defined,
         }
-
-        if base_style_opts:
-            _inner_opts.update(base_style_opts.opts)
 
         if connect_style_opts:
             connect_style_opts.opts = {

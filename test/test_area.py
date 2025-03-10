@@ -88,11 +88,6 @@ class TestAreaChart(unittest.TestCase):
                     fill="grey",
                     fill_opacity=0.15,
                 ),
-                base_style_opts=opts.BaseChartStyleOpts(
-                    fill="skyblue",
-                    opacity=0.5,
-                    stroke="yellow",
-                ),
             )
         )
 

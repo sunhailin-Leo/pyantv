@@ -13,11 +13,3 @@ class Point(Chart):
     ):
         super().__init__(init_opts=init_opts, render_opts=render_opts)
         self.options.update(type=ChartType.POINT)
-
-    def set_point_style(
-        self,
-        base_style_opts: types.Optional[types.BaseChartStyle] = None,
-    ):
-        self.options.update(style=base_style_opts)
-
-        return self

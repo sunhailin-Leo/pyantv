@@ -17,15 +17,11 @@ class Rect(Chart):
     def set_rect_style(
         self,
         base_radius_inset_opts: types.Optional[types.BaseChartRadiusInsetStyle] = None,
-        base_style_opts: types.Optional[types.BaseChartStyle] = None,
     ):
         _inner_opts: types.Optional[dict] = {}
 
         if base_radius_inset_opts:
             _inner_opts.update(base_radius_inset_opts.opts)
-
-        if base_style_opts:
-            _inner_opts.update(base_style_opts.opts)
 
         self.options.update(style=_inner_opts)
 

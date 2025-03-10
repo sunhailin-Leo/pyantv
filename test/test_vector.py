@@ -95,13 +95,11 @@ class TestVectorChart(unittest.TestCase):
                 tooltip_opts=opts.TooltipOpts(
                     title={"channel": "color", "valueFormatter": ".1f"}
                 ),
-            )
-            .set_vector_style(
-                arrow_size=10,
-                base_style_opts=opts.BaseChartStyleOpts(
+                style_opts=opts.BaseChartStyleOpts(
                     opacity=0.5,
                 ),
             )
+            .set_vector_style(arrow_size=10)
         )
 
         return c

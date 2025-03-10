@@ -179,7 +179,6 @@ class ScaleBaseOpts(BasicOpts):
         key: Optional[str] = None,
         range_: Optional[Sequence] = None,
         is_zero: Optional[bool] = None,
-        # TODO: 待完善（文档不太清楚）
     ):
         self.opts: dict = {
             "padding": padding,
@@ -1817,9 +1816,9 @@ class LabelOpts(BasicOpts):
         cursor: Optional[JSFunc] = None,
         position: Optional[str] = None,
         is_connector: Optional[bool] = None,
-        # TODO: connector 配置
+        connector_style_opts: Optional[BaseChartStyleOpts] = None,
         is_background: Optional[bool] = None,
-        # TODO: background 配置
+        background_style_opts: Optional[BaseChartStyleOpts] = None,
         transform: Optional[LabelTransform] = None,
         formatter: Optional[JSFunc] = None,
         selector: Optional[str] = None,
@@ -1855,6 +1854,20 @@ class LabelOpts(BasicOpts):
             "render": render,
             "style": style_opts,
         }
+
+        if connector_style_opts:
+            connector_style_opts.opts = {
+                f"connector{k[:1].upper() + k[1:]}": v
+                for k, v in connector_style_opts.opts.items()
+            }
+            self.opts.update(connector_style_opts.opts)
+
+        if background_style_opts:
+            background_style_opts.opts = {
+                f"background{k[:1].upper() + k[1:]}": v
+                for k, v in background_style_opts.opts.items()
+            }
+            self.opts.update(background_style_opts.opts)
 
 
 class InteractionMaskStyleOpts(BasicOpts):

@@ -59,8 +59,8 @@ class TestWordCloudChart(unittest.TestCase):
                 sprial="rectangular",
                 font_size=[20, 100],
             )
-            .set_wordcloud_style(
-                base_style_opts=opts.BaseChartStyleOpts(
+            .set_global_options(
+                style_opts=opts.BaseChartStyleOpts(
                     stroke="black",
                 ),
             )

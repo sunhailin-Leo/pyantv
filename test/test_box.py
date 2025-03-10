@@ -53,39 +53,3 @@ class TestBoxChart(unittest.TestCase):
         )
 
         return c
-
-    @chart_base_test(chart_type=ChartType.BOX)
-    def test_box_style(self):
-        c = (
-            Box()
-            .set_data(data=TEST_BOX_DATA)
-            .set_encode(
-                x_field_name="x",
-                y_field_name="y",
-                color_field="x",
-            )
-            .set_scale(
-                x_scale_opts=opts.ScaleBandOpts(
-                    padding_inner=0.6,
-                    padding_outer=0.3,
-                ),
-                y_scale_opts={"zero": True},
-            )
-            .set_box_style(
-                base_style_opts=opts.BaseChartStyleOpts(stroke="black"),
-            )
-            .set_global_options(
-                legend_opts=False,
-                tooltip_opts=opts.TooltipOpts(
-                    items=[
-                        opts.TooltipItemOpts(name="min", channel="y"),
-                        opts.TooltipItemOpts(name="q1", channel="y1"),
-                        opts.TooltipItemOpts(name="q2", channel="y2"),
-                        opts.TooltipItemOpts(name="q3", channel="y3"),
-                        opts.TooltipItemOpts(name="max", channel="y4"),
-                    ]
-                ),
-            )
-        )
-
-        return c

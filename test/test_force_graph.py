@@ -41,7 +41,7 @@ class TestForceGraphChart(unittest.TestCase):
         return c
 
     @chart_base_test(chart_type=ChartType.FORCEGRAPH)
-    def test_force_graph_layout_and_style(self):
+    def test_force_graph_layout(self):
         c = (
             ForceGraph(
                 render_opts=opts.RenderOpts(is_auto_fit=True),
@@ -69,11 +69,6 @@ class TestForceGraphChart(unittest.TestCase):
             )
             .set_force_graph_layout(
                 is_joint=True,
-            )
-            .set_force_graph_style(
-                base_style_opts=opts.BaseChartStyleOpts(
-                    opacity="black",
-                )
             )
         )
 

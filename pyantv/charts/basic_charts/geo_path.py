@@ -21,11 +21,3 @@ class GeoPath(Chart):
     # ):
     #     self.options.update({"projection": project_opts})
     #     return self
-
-    def set_geo_path_style(
-        self,
-        base_style_opts: types.Optional[types.BaseChartStyle] = None,
-    ):
-        self.options.update(style=base_style_opts)
-
-        return self

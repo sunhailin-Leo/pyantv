@@ -39,13 +39,9 @@ class TreeMap(Chart):
 
     def set_treemap_style(
         self,
-        base_style_opts: types.Optional[types.BaseChartStyle] = None,
         label_style_opts: types.Optional[types.BaseChartStyle] = None,
     ):
         _inner_opts: types.Optional[dict] = {}
-
-        if base_style_opts:
-            _inner_opts.update(base_style_opts.opts)
 
         if label_style_opts:
             label_style_opts.opts = {

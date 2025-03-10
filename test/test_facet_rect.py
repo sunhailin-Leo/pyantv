@@ -17,9 +17,9 @@ class TestFacetRectChart(unittest.TestCase):
                 x_field_name="x",
                 y_field_name="y",
             )
-            .set_global_options(inset=10)
-            .set_point_style(
-                base_style_opts=opts.BaseChartStyleOpts(
+            .set_global_options(
+                inset=10,
+                style_opts=opts.BaseChartStyleOpts(
                     stroke="#000",
                 )
             )
@@ -56,9 +56,9 @@ class TestFacetRectChart(unittest.TestCase):
                 x_field_name="x",
                 y_field_name="y",
             )
-            .set_global_options(inset=10)
-            .set_point_style(
-                base_style_opts=opts.BaseChartStyleOpts(
+            .set_global_options(
+                inset=10,
+                style_opts=opts.BaseChartStyleOpts(
                     stroke="#000",
                 )
             )

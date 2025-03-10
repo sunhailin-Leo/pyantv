@@ -47,8 +47,8 @@ class TestRangeChart(unittest.TestCase):
                     # guide: null ???
                 )
             )
-            .set_range_style(
-                base_style_opts=opts.BaseChartStyleOpts(
+            .set_global_options(
+                style_opts=opts.BaseChartStyleOpts(
                     fill_opacity=0.2,
                 )
             )
@@ -144,8 +144,8 @@ class TestRangeChart(unittest.TestCase):
                     is_independent=True, range_=["#FAAD14", "#30BF78"]
                 )
             )
-            .set_rangex_style(
-                base_style_opts=opts.BaseChartStyleOpts(
+            .set_global_options(
+                style_opts=opts.BaseChartStyleOpts(
                     fill_opacity=0.75,
                 )
             )
@@ -164,8 +164,8 @@ class TestRangeChart(unittest.TestCase):
                 y_field_name="population",
                 color_field="#333",
             )
-            .set_point_style(
-                base_style_opts=opts.BaseChartStyleOpts(
+            .set_global_options(
+                style_opts=opts.BaseChartStyleOpts(
                     line_width=1.5,
                 )
             )
@@ -195,8 +195,8 @@ class TestRangeChart(unittest.TestCase):
             RangeY()
             .set_data(data=[{"y": [54, 72]}])
             .set_encode(y_field_name="y")
-            .set_rangey_style(
-                base_style_opts=opts.BaseChartStyleOpts(
+            .set_global_options(
+                style_opts=opts.BaseChartStyleOpts(
                     fill_opacity=0.75,
                 )
             )

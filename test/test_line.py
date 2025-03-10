@@ -26,7 +26,6 @@ class TestLineChart(unittest.TestCase):
     def test_line_base(self):
         line = (
             Line()
-            .set_line_style()
             .set_global_options(
                 label_opts=[
                     opts.LabelOpts(
@@ -70,9 +69,6 @@ class TestLineChart(unittest.TestCase):
                     opacity=0.5,
                 ),
                 is_defined=True,
-                base_style_opts=opts.BaseChartStyleOpts(
-                    stroke="#f00",
-                ),
             )
             .set_global_options(
                 label_opts=[
@@ -80,7 +76,10 @@ class TestLineChart(unittest.TestCase):
                         text_opts="value",
                         style_opts=opts.BaseChartStyleOpts(dx=-10, dy=-12),
                     )
-                ]
+                ],
+                style_opts=opts.BaseChartStyleOpts(
+                    stroke="#f00",
+                ),
             )
         )
 
@@ -140,8 +139,8 @@ class TestLineChart(unittest.TestCase):
                     )
                 ],
             )
-            .set_linex_style(
-                base_style_opts=opts.BaseChartStyleOpts(
+            .set_global_options(
+                style_opts=opts.BaseChartStyleOpts(
                     stroke="#F4664A",
                     stroke_opacity=1,
                     line_width=5,
@@ -207,8 +206,8 @@ class TestLineChart(unittest.TestCase):
                     )
                 ],
             )
-            .set_liney_style(
-                base_style_opts=opts.BaseChartStyleOpts(
+            .set_global_options(
+                style_opts=opts.BaseChartStyleOpts(
                     stroke="#F4664A",
                     stroke_opacity=1,
                     line_width=5,

@@ -91,9 +91,9 @@ class TestRectChart(unittest.TestCase):
                         thresholds=9,
                     )
                 ],
+                style_opts=opts.BaseChartStyleOpts(inset=1),
             )
             .set_rect_style(
-                base_style_opts=opts.BaseChartStyleOpts(inset=1),
                 base_radius_inset_opts=opts.BaseChartRadiusInsetStyleOpts(
                     radius=10,
                 ),

@@ -19,7 +19,7 @@ from ..charts.basic_charts.rect import Rect
 from ..charts.basic_charts.shape import Shape
 from ..charts.basic_charts.text import Text
 from ..charts.basic_charts.vector import Vector
-from ..charts.basic_charts.view import View
+
 from ..charts.basic_charts.wordcloud import Wordcloud
 from ..charts.basic_charts.force_graph import ForceGraph
 from ..charts.basic_charts.pack import Pack
@@ -27,14 +27,15 @@ from ..charts.basic_charts.sankey import Sankey
 from ..charts.basic_charts.tree import Tree
 from ..charts.basic_charts.treemap import TreeMap
 from ..charts.basic_charts.geo_path import GeoPath
-from ..charts.basic_charts.geo_view import GeoView
 
 # composition Charts
 from ..charts.composition_charts.facet_circle import FacetCircle
 from ..charts.composition_charts.facet_rect import FacetRect
+from ..charts.composition_charts.geo_view import GeoView
 from ..charts.composition_charts.repeat_matrix import RepeatMatrix
 from ..charts.composition_charts.space_flex import SpaceFlex
 from ..charts.composition_charts.space_layer import SpaceLayer
 from ..charts.composition_charts.timing_key_frame import TimingKeyFrame
+from ..charts.composition_charts.view import View
 
 # TODO: 3D Charts

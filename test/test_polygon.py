@@ -58,13 +58,12 @@ class TestPolygonChart(unittest.TestCase):
                     items=[opts.TooltipItemOpts(field="count")],
                 ),
                 interaction_opts=opts.InteractionOpts(element_highlight_opts=True),
-            )
-            .set_polygon_style(
-                base_style_opts=opts.BaseChartStyleOpts(
+                style_opts=opts.BaseChartStyleOpts(
                     line_width=5,
                     stroke="#fff",
                 )
             )
+            .set_polygon_style(arrow_size=10)
         )
 
         return c

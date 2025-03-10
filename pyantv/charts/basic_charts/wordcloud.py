@@ -34,11 +34,3 @@ class Wordcloud(Chart):
             }
         )
         return self
-
-    def set_wordcloud_style(
-        self,
-        base_style_opts: types.Optional[types.BaseChartStyle] = None,
-    ):
-        self.options.update(style=base_style_opts)
-
-        return self

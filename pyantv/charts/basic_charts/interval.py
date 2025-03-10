@@ -20,7 +20,6 @@ class Interval(Chart):
         max_width: types.NumericAndJsFunc = None,
         min_height: types.NumericAndJsFunc = None,
         base_radius_inset_opts: types.Optional[types.BaseChartRadiusInsetStyle] = None,
-        base_style_opts: types.Optional[types.BaseChartStyle] = None,
     ):
         _inner_opts: types.Optional[dict] = {
             "minWidth": min_width,
@@ -30,9 +29,6 @@ class Interval(Chart):
 
         if base_radius_inset_opts:
             _inner_opts.update(base_radius_inset_opts.opts)
-
-        if base_style_opts:
-            _inner_opts.update(base_style_opts.opts)
 
         self.options.update(style=_inner_opts)
 

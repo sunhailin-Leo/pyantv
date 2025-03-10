@@ -17,13 +17,7 @@ class Link(Chart):
     def set_link_style(
         self,
         arrow_size: types.Optional[types.Union[str, types.Numeric]] = None,
-        base_style_opts: types.Optional[types.BaseChartStyle] = None,
     ):
-        _inner_opts: types.Optional[dict] = {"arrowSize": arrow_size}
-
-        if base_style_opts:
-            _inner_opts.update(base_style_opts.opts)
-
-        self.options.update(style=_inner_opts)
+        self.options.update(style={"arrowSize": arrow_size})
 
         return self

@@ -52,8 +52,8 @@ class TestImageChart(unittest.TestCase):
                 x_field_name=["name", "name"],
                 y_field_name=JsCode("(d) => [0, d.value]"),
             )
-            .set_link_style(
-                base_style_opts=opts.BaseChartStyleOpts(
+            .set_global_options(
+                style_opts=opts.BaseChartStyleOpts(
                     stroke="#dfdfdf",
                     line_dash=[2, 2],
                 ),
@@ -71,8 +71,8 @@ class TestImageChart(unittest.TestCase):
                 x_scale_opts=opts.ScaleBandOpts(),
                 y_scale_opts=opts.ScaleLinearOpts(domain=[0, 50]),
             )
-            .set_line_style(
-                base_style_opts=opts.BaseChartStyleOpts(
+            .set_global_options(
+                style_opts=opts.BaseChartStyleOpts(
                     opacity=0.5,
                 ),
             )
@@ -89,8 +89,8 @@ class TestImageChart(unittest.TestCase):
                 x_scale_opts=opts.ScaleBandOpts(),
                 y_scale_opts=opts.ScaleLinearOpts(domain=[0, 50]),
             )
-            .set_image_style(
-                base_style_opts=opts.BaseChartStyleOpts(
+            .set_global_options(
+                style_opts=opts.BaseChartStyleOpts(
                     opacity=0.95,
                 ),
             )

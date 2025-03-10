@@ -19,15 +19,11 @@ class Line(Chart):
         is_connect: types.Optional[bool] = None,
         connect_style_opts: types.Optional[types.BaseChartStyle] = None,
         is_defined: types.Optional[bool] = None,
-        base_style_opts: types.Optional[types.BaseChartStyle] = None,
     ):
         _inner_opts: types.Optional[dict] = {
             "connect": is_connect,
             "defined": is_defined,
         }
-
-        if base_style_opts:
-            _inner_opts.update(base_style_opts.opts)
 
         if connect_style_opts:
             connect_style_opts.opts = {
@@ -51,14 +47,6 @@ class LineX(Chart):
         super().__init__(init_opts=init_opts, render_opts=render_opts)
         self.options.update(type=ChartType.LINEX)
 
-    def set_linex_style(
-        self,
-        base_style_opts: types.Optional[types.BaseChartStyle] = None,
-    ):
-        self.options.update(style=base_style_opts)
-
-        return self
-
 
 class LineY(Chart):
 
@@ -69,11 +57,3 @@ class LineY(Chart):
     ):
         super().__init__(init_opts=init_opts, render_opts=render_opts)
         self.options.update(type=ChartType.LINEY)
-
-    def set_liney_style(
-        self,
-        base_style_opts: types.Optional[types.BaseChartStyle] = None,
-    ):
-        self.options.update(style=base_style_opts)
-
-        return self

@@ -15,8 +15,8 @@ class TestGeoViewChart(unittest.TestCase):
         geo_path_1 = (
             GeoPath()
             .set_data(data={"type": "graticule10"})
-            .set_geo_path_style(
-                base_style_opts=opts.BaseChartStyleOpts(
+            .set_global_options(
+                style_opts=opts.BaseChartStyleOpts(
                     stroke="#ccc",
                     fill="none",
                 )
@@ -33,8 +33,8 @@ class TestGeoViewChart(unittest.TestCase):
                     ],
                 )
             )
-            .set_geo_path_style(
-                base_style_opts=opts.BaseChartStyleOpts(
+            .set_global_options(
+                style_opts=opts.BaseChartStyleOpts(
                     fill="black",
                 )
             )
@@ -43,8 +43,8 @@ class TestGeoViewChart(unittest.TestCase):
         geo_path_3 = (
             GeoPath()
             .set_data(data={"type": "sphere"})
-            .set_geo_path_style(
-                base_style_opts=opts.BaseChartStyleOpts(
+            .set_global_options(
+                style_opts=opts.BaseChartStyleOpts(
                     stroke="black",
                     fill="none",
                 )

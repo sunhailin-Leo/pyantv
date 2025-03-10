@@ -22,20 +22,14 @@ class HeatMap(Chart):
         min_opacity: types.Optional[types.Numeric] = None,
         blur: types.Optional[types.Numeric] = None,
         is_use_gradient_opacity: types.Optional[bool] = None,
-        base_style_opts: types.Optional[types.BaseChartStyle] = None,
     ):
-        _inner_opts: types.Optional[dict] = {
+        self.options.update(style={
             "gradient": gradient,
             "opacity": opacity,
             "maxOpacity": max_opacity,
             "minOpacity": min_opacity,
             "blur": blur,
             "useGradientOpacity": is_use_gradient_opacity,
-        }
-
-        if base_style_opts:
-            _inner_opts.update(base_style_opts.opts)
-
-        self.options.update(style=_inner_opts)
+        })
 
         return self

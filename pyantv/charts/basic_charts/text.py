@@ -24,18 +24,13 @@ class Text(Chart):
         text_baseline: types.Optional[types.JSFunc] = None,
         base_style_opts: types.Optional[types.BaseChartStyle] = None,
     ):
-        _inner_opts: types.Optional[dict] = {
+        self.options.update(style={
             "fontSize": font_size,
             "fontFamily": font_family,
             "fontWeight": font_weight,
             "lineHeight": line_height,
             "textAlign": text_align,
             "textBaseline": text_baseline,
-        }
-
-        if base_style_opts:
-            _inner_opts.update(base_style_opts.opts)
-
-        self.options.update(style=_inner_opts)
+        })
 
         return self

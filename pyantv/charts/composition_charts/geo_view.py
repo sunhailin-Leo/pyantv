@@ -1,10 +1,10 @@
-from ... import options as opts
-from ... import types
-from ...charts.chart import Chart
-from ...globals import ChartType
+from pyantv import options as opts
+from pyantv import types
+from pyantv.charts.chart import Chart
+from pyantv.globals import ChartType
 
 
-class View(Chart):
+class GeoView(Chart):
 
     def __init__(
         self,
@@ -12,9 +12,9 @@ class View(Chart):
         render_opts: types.RenderInit = opts.RenderOpts(),
     ):
         super().__init__(init_opts=init_opts, render_opts=render_opts)
-        self.options.update(type=ChartType.VIEW)
+        self.options.update(type=ChartType.GEOVIEW)
 
-    def set_view_children(
+    def set_geo_view_children(
         self,
         children: types.Optional[types.Sequence[Chart]] = None,
     ):

@@ -2,7 +2,14 @@
 <p align="center">
     <em>Python ❤️ AntV = pyantv</em>
 </p>
-
+<p align="center">
+    <a href="https://github.com/sunhailin-Leo/pyantv/actions">
+        <img src="https://github.com/sunhailin-Leo/pyantv/actions/workflows/python-app.yml/badge.svg" alt="Github Actions Status">
+    </a>
+    <a href="https://codecov.io/gh/sunhailin-Leo/pyantv">
+        <img src="https://codecov.io/gh/sunhailin-Leo/pyantv/branch/master/graph/badge.svg" alt="Codecov">
+    </a>
+</p>
 <p align="center">
     <a href="https://github.com/sunhailin-Leo/pyantv/pulls">
         <img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat" alt="Contributions welcome">
@@ -33,7 +40,6 @@
 ```shell
 # 安装
 $ pip install pyantv -U
-
 ```
 
 **源码安装**

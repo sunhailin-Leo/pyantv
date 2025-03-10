@@ -79,13 +79,13 @@ class TestHeatMapChart(unittest.TestCase):
             )
             .set_global_options(
                 tooltip_opts=False,
+                style_opts=opts.BaseChartStyleOpts(
+                    opacity=0.5,
+                ),
             )
             .set_heatmap_style(
                 min_opacity=0.3,
                 max_opacity=0.9,
-                base_style_opts=opts.BaseChartStyleOpts(
-                    opacity=0.5,
-                ),
             )
         )
 

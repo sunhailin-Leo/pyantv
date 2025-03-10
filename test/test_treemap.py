@@ -64,14 +64,16 @@ class TestTreeMapChart(unittest.TestCase):
                     fill="#000",
                     position="top-left",
                 ),
-                base_style_opts=opts.BaseChartStyleOpts(
-                    fill_opacity=0.5,
-                ),
             )
             .set_treemap_layout(
                 path=JsCode(r"(d) => d.name.replace(/\./g, '/')"),
                 tile="treemapBinary",
                 padding_inner=1,
+            )
+            .set_global_options(
+                style_opts=opts.BaseChartStyleOpts(
+                    fill_opacity=0.5,
+                ),
             )
         )
 
