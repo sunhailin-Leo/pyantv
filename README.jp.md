@@ -4,7 +4,7 @@
 </p>
 <p align="center">
     <a href="https://github.com/sunhailin-Leo/pyantv/actions">
-        <img src="https://github.com/sunhailin-Leo/pyantv/actions/workflows/python-app.yml/badge.svg" alt="Github Actions Status">
+        <img src="https://github.com/sunhailin-Leo/pyantv/actions/workflows/python-app.yml/badge.svg" alt="GitHub Actions Status">
     </a>
     <a href="https://codecov.io/gh/sunhailin-Leo/pyantv">
         <img src="https://codecov.io/gh/sunhailin-Leo/pyantv/branch/master/graph/badge.svg" alt="Codecov">
@@ -19,12 +19,14 @@
     </a>
 </p>
 
-[中国語 README](README.md) | [英語 README](README.en.md) | [日本語 README](README.jp.md)
+<img src="https://gw.alipayobjects.com/zos/antfincdn/R8sN%24GNdh6/language.svg" width="18"> [中国語 README](README.md) | [英語 README](README.en.md) | [日本語 README](README.jp.md)
 
 
 ## 📣 紹介
 
-[AntV](https://github.com/antvis) はアリババグループが提供するデータ可視化ソリューションで、Web データ可視化分野に焦点を当てています。これは、可視化文法ライブラリ AntV Design とレンダリングエンジン G を基にしており、データ表示だけでなく、ナラティブシーン向けのアニメーション編成、豊富なインタラクション能力、カスタマイズ可能なチャートスタイルもサポートしています。シンプルで使いやすい設定により、ユーザーの学習コストを大幅に削減します。一方、Python は表現力豊かな言語であり、データ処理や AI などのシナリオに非常に適しています。データ分析やモデリングがデータ可視化と出会うとき、[pyecharts](https://github.com/pyecharts/pyecharts)、[py-vchart](https://github.com/VisActor/py-vchart) そして [py-antv](https://github.com/sunhailin-Leo/pyantv) が誕生しました。
+[AntV](https://github.com/antvis) は、Ant Group（アントグループ）によって発足され、2017年からオープンソース化されました。JavaScript言語にグラフィカルグラマー（図形文法）の理論を組み込み、データ可視化を再定義しました。従来のチャートライブラリが柔軟性と使いやすさの間で妥協を強いる課題に対応するため、データ可視化技術を4つのシリーズに分類しました。それぞれ、2、6、7、8が統計分析、グラフ分析、地理分析、非構造化データの可視化を表しています。また、これらの能力をさらに拡張し、チャートライブラリ、研究開発ツール、AIが駆動するインテリジェント可視化など、さまざまな技術ソリューションに適用しています。
+
+一方、Python は表現力豊かな言語であり、データ処理や AI などのシナリオに非常に適しています。データ分析やモデリングがデータ可視化と出会うとき、[pyecharts](https://github.com/pyecharts/pyecharts)、[py-vchart](https://github.com/VisActor/py-vchart) そして [py-antv](https://github.com/sunhailin-Leo/pyantv) が誕生しました。
 
 ## ✨ 特徴
 
@@ -38,12 +40,14 @@
 ## 🔰 インストール
 
 **pip インストール**
+
 ```shell
 # インストール
 $ pip install pyantv -U
 ```
 
 **ソースコードからのインストール**
+
 ```shell
 # ソースコードからのインストール
 $ git clone https://github.com/sunhailin-Leo/pyantv
@@ -63,7 +67,7 @@ $ make
 
 ### 統合テスト
 
-Github Actions 持続的インテグレーション環境を使用。
+GitHub Actions 持続的インテグレーション環境を使用。
 
 ### コード規約
 

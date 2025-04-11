@@ -1,10 +1,10 @@
 <h1 align="center">pyantv</h1>
 <p align="center">
-    <em>Python ❤️ AntV = pyantv</em>
+    <em>Python ❤️ AntV = pyantv, Python binding for AntV.</em>
 </p>
 <p align="center">
     <a href="https://github.com/sunhailin-Leo/pyantv/actions">
-        <img src="https://github.com/sunhailin-Leo/pyantv/actions/workflows/python-app.yml/badge.svg" alt="Github Actions Status">
+        <img src="https://github.com/sunhailin-Leo/pyantv/actions/workflows/python-app.yml/badge.svg" alt="GitHub Actions Status">
     </a>
     <a href="https://codecov.io/gh/sunhailin-Leo/pyantv">
         <img src="https://codecov.io/gh/sunhailin-Leo/pyantv/branch/master/graph/badge.svg" alt="Codecov">
@@ -19,11 +19,13 @@
     </a>
 </p>
 
-[中文 README](README.md) | [English README](README.en.md) | [日本語（にほんご）README](README.jp.md)
+<img src="https://gw.alipayobjects.com/zos/antfincdn/R8sN%24GNdh6/language.svg" width="18"> [中文 README](README.md) | [English README](README.en.md) | [日本語（にほんご）README](README.jp.md)
 
 ## 📣 简介
 
-[AntV](https://github.com/antvis) 是蚂蚁集团推出的一套数据可视化解决方案，专注于 Web 数据可视化领域。它基于它基于可视化语法库 AntV Design 和渲染引擎 G 进行封装，在满足数据呈现的同时，还支持面向叙事场景的动画编排、丰富的交互能力和定制化的图表风格，简单易用的配置大大降低了用户的学习成本。而 Python 是一门富有表达力的语言，非常适合用于数据处理、AI 等场景。当数据分析，建模遇上数据可视化时，[pyecharts](https://github.com/pyecharts/pyecharts)、[py-vchart](https://github.com/VisActor/py-vchart) 和 [py-antv](https://github.com/sunhailin-Leo/pyantv) 诞生了。
+[AntV](https://github.com/antvis) 由蚂蚁集团发起，并自 2017 年起开源，将图形语法理论融入 JavaScript 语言，重新定义了数据可视化。针对传统图表库在灵活性和易用性之间的取舍问题，将数据可视化技术分为四大系列：2、6、7 和 8，分别代表统计分析、图分析、地理分析以及非结构化数据可视化，并将这些能力扩展到不同技术方案，包括图表库、研发工具以及 AI 驱动的智能可视化。
+
+而 Python 是一门富有表达力的语言，非常适合用于数据处理、AI 等场景。当数据分析，建模遇上数据可视化时，[pyecharts](https://github.com/pyecharts/pyecharts)、[py-vchart](https://github.com/VisActor/py-vchart) 和 [py-antv](https://github.com/sunhailin-Leo/pyantv) 诞生了。
 
 ## ✨ 特性
 
@@ -37,12 +39,14 @@
 ## 🔰 安装
 
 **pip 安装**
+
 ```shell
 # 安装
 $ pip install pyantv -U
 ```
 
 **源码安装**
+
 ```shell
 # 源码安装
 $ git clone https://github.com/sunhailin-Leo/pyantv
@@ -62,7 +66,7 @@ $ make
 
 ### 集成测试
 
-使用 Github Actions 持续集成环境。
+使用 GitHub Actions 持续集成环境。
 
 ### 代码规范
 
