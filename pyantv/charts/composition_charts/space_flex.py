@@ -25,3 +25,17 @@ class SpaceFlex(Chart):
         )
 
         return self
+
+    def add_child(self, chart: Chart):
+        """添加子图表。
+
+        :param chart: 子图表对象。
+        :returns: 当前对象自身，支持链式调用。
+        """
+        if not hasattr(self, "_children"):
+            self._children = []
+        self._children.append(chart)
+        children = self.options.get("children", [])
+        children.append(chart.get_options())
+        self.options.update(children=children)
+        return self

@@ -1,0 +1,153 @@
+# ============================================================================
+# pyantv 现代化打包配置（Sprint 62）
+#
+# 本文件是 pyantv 项目依赖与元数据的 Single Source of Truth。
+# - build-backend 采用官方推荐的 setuptools.build_meta（PEP 517/518/660 兼容）
+# - optional-dependencies 覆盖 pandas / numpy / export / streamlit / notebook /
+#   offline / docs / test / dev / all 10 个分组
+# - 不定义 [tool.uv].dev-dependencies，避免与 [project.optional-dependencies].dev
+#   冲突（依赖 uv 0.4+ 对 [project.optional-dependencies] 的原生 extras 支持）
+# ============================================================================
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel", "setuptools-scm>=8.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyantv"
+dynamic = ["version"]
+description = "Python visualization SDK for AntV"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+authors = [
+    {name = "sunhailin-Leo", email = "shjkfld379978424@gmail.com"},
+]
+keywords = ["AntV", "charts", "plotting-tool", "visualization"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Framework :: Jupyter",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Scientific/Engineering :: Visualization",
+]
+dependencies = [
+    "jinja2>=2.11.3",
+    "simplejson>=3.0",
+    "typing_extensions>=4.0; python_version < '3.11'",
+]
+
+[project.optional-dependencies]
+# ---- 用户向分组（pip install pyantv[xxx]） ----
+pandas = ["pandas>=1.0.0"]
+numpy = ["numpy>=1.20.0"]
+export = ["playwright>=1.40.0"]
+streamlit = ["streamlit>=1.0.0"]
+notebook = ["ipywidgets>=7.0", "ipython>=7.0"]
+offline = ["requests>=2.25.0"]
+# ---- 开发/文档/测试向分组 ----
+docs = ["mkdocs>=1.5.0", "mkdocs-material>=9.0.0"]
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "playwright>=1.40.0",
+    "pillow>=9.0.0",
+    "pytest-benchmark>=4.0.0",
+    "hypothesis>=6.0.0",
+    "scikit-image>=0.19.0",
+]
+dev = [
+    "black>=25.0.0",
+    "isort>=5.13.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "build>=0.10.0",
+    "twine>=4.0.0",
+]
+# ---- 聚合分组：只包含"用户向"分组，不含 dev/test/docs（避免带入 500MB+ 开发依赖）----
+all = [
+    "pandas>=1.0.0",
+    "numpy>=1.20.0",
+    "playwright>=1.40.0",
+    "streamlit>=1.0.0",
+    "ipywidgets>=7.0",
+    "ipython>=7.0",
+    "requests>=2.25.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/sunhailin-Leo/pyantv"
+Repository = "https://github.com/sunhailin-Leo/pyantv"
+Issues = "https://github.com/sunhailin-Leo/pyantv/issues"
+Documentation = "https://github.com/sunhailin-Leo/pyantv#readme"
+
+# ---------------------------------------------------------------------------
+# setuptools 动态配置
+# ---------------------------------------------------------------------------
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.packages.find]
+exclude = ["test*", "benchmarks*", "examples*", "scripts*"]
+
+[tool.setuptools.dynamic]
+# version 由 setuptools-scm 管理（见 [tool.setuptools-scm]），此处不再使用 attr 方式
+
+# ---------------------------------------------------------------------------
+# setuptools-scm 版本管理（Sprint 72）
+# ---------------------------------------------------------------------------
+[tool.setuptools-scm]
+write_to = "pyantv/_version.py"
+fallback_version = "0.1.0"
+
+# ---------------------------------------------------------------------------
+# 代码质量工具
+# ---------------------------------------------------------------------------
+[tool.black]
+line-length = 89
+
+[tool.isort]
+profile = "black"
+line_length = 89
+
+[tool.mypy]
+python_version = "3.8"
+ignore_missing_imports = true
+exclude = [
+    "^test/",
+    "^benchmarks/",
+    "^examples?/",
+    "^scripts/",
+    "^build/",
+    "^dist/",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["test"]
+python_files = "test_*.py"
+
+[tool.coverage.run]
+omit = [
+    "pyantv/render/templates/*",
+    "setup.py",
+    "install.py",
+    "test.py",
+    "test/*",
+    "benchmarks/*",
+]
+
+[tool.coverage.report]
+show_missing = true
+precision = 2

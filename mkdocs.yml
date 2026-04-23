@@ -1,0 +1,119 @@
+site_name: pyantv
+site_description: Python ❤️ AntV — 基于 AntV G2 的 Python 数据可视化库
+site_url: https://sunhailin-Leo.github.io/pyantv
+repo_url: https://github.com/sunhailin-Leo/pyantv
+repo_name: sunhailin-Leo/pyantv
+
+theme:
+  name: material
+  language: zh
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: 切换到暗色模式
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: 切换到亮色模式
+
+nav:
+  - 首页: index.md
+  - 快速开始: quick-start.md
+  - 图表:
+    - 图表总览: charts/index.md
+    - 统计图表:
+      - Line: charts/line.md
+      - Area: charts/area.md
+      - Interval: charts/interval.md
+      - Point: charts/point.md
+    - 分布图:
+      - Boxplot: charts/boxplot.md
+      - Density: charts/density.md
+      - Beeswarm: charts/beeswarm.md
+    - 关系图:
+      - Sankey: charts/sankey.md
+      - Chord: charts/chord.md
+      - Force Graph: charts/force_graph.md
+      - Treemap: charts/treemap.md
+      - Tree: charts/tree.md
+      - Pack: charts/pack.md
+      - Partition: charts/partition.md
+    - 地理图:
+      - Geo Path: charts/geo_path.md
+      - Geo View: charts/geo_view.md
+    - 特殊图:
+      - Gauge: charts/gauge.md
+      - Liquid: charts/liquid.md
+      - Wordcloud: charts/wordcloud.md
+      - Funnel: charts/funnel.md
+      - Waterfall: charts/waterfall.md
+      - Bullet: charts/bullet.md
+    - 3D 图表:
+      - Point3D: charts/point3d.md
+      - Line3D: charts/line3d.md
+      - Interval3D: charts/interval3d.md
+    - 组合图表:
+      - Facet Circle: charts/facet_circle.md
+      - Facet Rect: charts/facet_rect.md
+      - Space Flex: charts/space_flex.md
+      - Space Layer: charts/space_layer.md
+      - Repeat Matrix: charts/repeat_matrix.md
+      - Timing Key Frame: charts/timing_key_frame.md
+      - View: charts/view.md
+    - 基础标记:
+      - Rect: charts/rect.md
+      - Cell: charts/cell.md
+      - Link: charts/link.md
+      - Arc: charts/arc.md
+      - Text: charts/text.md
+      - Path: charts/path.md
+      - Shape: charts/shape.md
+      - Connector: charts/connector.md
+      - Range: charts/range.md
+      - Image: charts/image.md
+      - Polygon: charts/polygon.md
+      - Vector: charts/vector.md
+      - Heatmap: charts/heatmap.md
+      - Box: charts/box.md
+  - Presets:
+    - 总览: presets/index.md
+    - 主题: presets/themes.md
+    - 动画: presets/animation.md
+    - 布局: presets/layout.md
+    - 坐标系: presets/coordinate.md
+    - 交互: presets/interaction.md
+    - 数据转换: presets/transform.md
+    - 格式化: presets/formatting.md
+  - Options:
+    - 总览: options/index.md
+    - 坐标轴: options/axis.md
+    - 图例: options/legend.md
+    - 提示框: options/tooltip.md
+    - 标签: options/label.md
+    - 样式: options/style.md
+    - 比例尺: options/scale.md
+    - 交互: options/interaction.md
+    - 动画: options/animation.md
+    - 注解: options/annotation.md
+    - 标题: options/title.md
+    - 滚动条: options/scrollbar.md
+    - 滑块: options/slider.md
+  - API 参考: api-reference.md
+  - 对比: comparison.md
+  - 贡献指南: CONTRIBUTING.md
+  - 开发者指南:
+    - CI / CD 流程: development/ci.md
+  - 更新日志: changelog.md
+  - 社区: good-first-issues.md
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - admonition
+  - toc:
+      permalink: true

@@ -5,10 +5,21 @@ omit =
     install.py
     test.py
     test/*
+    benchmarks/*
 
 [report]
 show_missing = True
+precision = 2
+fail_under = 95
 omit =
     pyantv/render/templates/*
     setup.py
     install.py
+    test.py
+    test/*
+    benchmarks/*
+exclude_lines =
+    pragma: no cover
+    if sys.version_info
+    from typing import Self
+    except ImportError

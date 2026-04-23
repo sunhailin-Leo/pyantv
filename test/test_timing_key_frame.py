@@ -1,11 +1,19 @@
+"""TimingKeyFrame 时序关键帧动画测试。"""
+
 import unittest
 
 from pyantv import options as opts
 from pyantv.charts import TimingKeyFrame, Interval, Point
-from pyantv.commons.utils import JsCode
+
 from pyantv.globals import ChartType
 
 from test import chart_base_test
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+    ANY,
+)
 
 
 TEST_TIMING_KEY_FRAME_DATA = [
@@ -182,3 +190,39 @@ class TestTimingKeyFrameChart(unittest.TestCase):
         )
 
         return c
+
+    def test_timing_key_frame_options_validation(self):
+        """验证 TimingKeyFrame 图表的 JSON 配置结构正确性。"""
+        chart = (
+            TimingKeyFrame()
+            .set_data(data=TEST_TIMING_KEY_FRAME_DATA)
+            .set_timing_key_frame_children(
+                children=[
+                    Interval()
+                    .set_encode(
+                        x_field_name="gender",
+                        y_field_name="weight",
+                    )
+                    .get_options()
+                ]
+            )
+        )
+
+        options = chart.options
+        assert_chart_type(options, "timingKeyframe")
+        assert_options_contains(
+            options,
+            {
+                "type": "timingKeyframe",
+                "data": TEST_TIMING_KEY_FRAME_DATA,
+                "children": ANY,
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "children",
+            ],
+        )

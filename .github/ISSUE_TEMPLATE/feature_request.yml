@@ -1,0 +1,40 @@
+name: "✨ Feature Request"
+description: "Suggest a new feature"
+title: "[Feat] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: "Thanks for suggesting a new feature!"
+  - type: textarea
+    id: problem
+    attributes:
+      label: "Problem statement"
+      description: "What problem does this feature solve?"
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: "Proposed solution"
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: "Alternatives considered"
+    validations:
+      required: false
+  - type: textarea
+    id: context
+    attributes:
+      label: "Additional context (mockups / API sketch)"
+    validations:
+      required: false
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: "Code of Conduct"
+      options:
+        - label: "I agree to follow this project's Code of Conduct"
+          required: true

@@ -1,0 +1,61 @@
+name: pyantv Docs Deploy
+
+# 文档部署 workflow（Sprint 73+）
+# - 仅在 master 分支推送、且涉及 docs/ 或 mkdocs.yml 时触发
+# - 使用 GitHub Pages 官方 actions（actions/deploy-pages@v4）部署到 gh-pages
+# - PR 阶段的 strict build 校验由 python-app.yml 的 docs job 负责，本 workflow 只做部署
+# - 需要在仓库 Settings → Pages 中将 Source 切换为 "GitHub Actions"
+
+on:
+  push:
+    branches: [master, main]
+    paths:
+      - "docs/**"
+      - "mkdocs.yml"
+      - ".github/workflows/docs-deploy.yml"
+  workflow_dispatch:
+
+# 部署到 GitHub Pages 所需权限
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时间只允许一个部署任务，新触发会取消进行中的旧任务
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # setuptools-scm 需要完整 git 历史才能正确派生版本号
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install uv and sync docs extras
+        run: |
+          python -m pip install --upgrade pip
+          pip install uv
+          uv sync --extra docs
+      - name: Build MkDocs site (strict)
+        run: uv run mkdocs build --strict --site-dir site
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,10 +1,18 @@
+"""WordCloud 词云图基础功能测试。"""
+
 import unittest
 
-from pyantv import options as opts
+import pyantv.options as opts
+
 from pyantv.charts import Wordcloud
 from pyantv.globals import ChartType
 
 from test import chart_base_test
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+)
 
 
 class TestWordCloudChart(unittest.TestCase):
@@ -67,3 +75,28 @@ class TestWordCloudChart(unittest.TestCase):
         )
 
         return c
+
+    def test_wordcloud_options_validation(self):
+        """验证 WordCloud 图表的 JSON 配置结构正确性。"""
+        TEST_DATA = [
+            {"text": "hello", "value": 10},
+            {"text": "world", "value": 20},
+        ]
+        chart = Wordcloud().set_data(data=TEST_DATA).set_encode(color_field="text")
+        options = chart.options
+        assert_chart_type(options, "wordCloud")
+        assert_options_contains(
+            options,
+            {
+                "type": "wordCloud",
+                "data": TEST_DATA,
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "encode",
+            ],
+        )

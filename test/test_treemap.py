@@ -1,13 +1,21 @@
+"""Treemap 矩形树图基础功能测试。"""
+
 import unittest
 
 from simplejson import JSONEncoder
 
-from pyantv import options as opts
+import pyantv.options as opts
+
 from pyantv.charts import TreeMap
 from pyantv.commons.utils import JsCode
 from pyantv.globals import ChartType
 
 from test import chart_base_test
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+)
 
 
 class CustomJSONEncoder(JSONEncoder):
@@ -78,3 +86,34 @@ class TestTreeMapChart(unittest.TestCase):
         )
 
         return c
+
+    def test_treemap_options_validation(self):
+        """验证 TreeMap 图表的 JSON 配置结构正确性。"""
+        TEST_DATA = [
+            {
+                "name": "root",
+                "value": 10,
+                "children": [
+                    {"name": "child1", "value": 5},
+                    {"name": "child2", "value": 5},
+                ],
+            },
+        ]
+        chart = TreeMap().set_data(data=TEST_DATA).set_encode(value_field="value")
+        options = chart.options
+        assert_chart_type(options, "treemap")
+        assert_options_contains(
+            options,
+            {
+                "type": "treemap",
+                "data": TEST_DATA,
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "encode",
+            ],
+        )

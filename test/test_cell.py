@@ -1,3 +1,5 @@
+"""Cell 色块图基础功能测试。"""
+
 import unittest
 
 from pyantv import options as opts
@@ -5,6 +7,12 @@ from pyantv.charts import Cell
 from pyantv.globals import ChartType
 
 from test import chart_base_test
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+    assert_encode_fields,
+)
 
 TEST_INTERVAL_DATA = [
     {"letter": "A", "frequency": 0.08167},
@@ -97,3 +105,36 @@ class TestCellChart(unittest.TestCase):
         )
 
         return c
+
+    def test_cell_options_validation(self):
+        """验证 Cell 图表的 JSON 配置结构正确性。"""
+        cell = (
+            Cell()
+            .set_data(data=TEST_INTERVAL_DATA)
+            .set_encode(
+                x_field_name="letter",
+                y_field_name="frequency",
+                color_field="frequency",
+            )
+        )
+        options = cell.options
+        assert_chart_type(options, "cell")
+        assert_encode_fields(options, x="letter", y="frequency", color="frequency")
+        assert_options_contains(
+            options,
+            {
+                "type": "cell",
+                "encode": {"x": "letter", "y": "frequency", "color": "frequency"},
+                "data": TEST_INTERVAL_DATA,
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "encode.x",
+                "encode.y",
+                "encode.color",
+            ],
+        )

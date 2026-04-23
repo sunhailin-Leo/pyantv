@@ -1,3 +1,5 @@
+"""Base 基类核心功能测试。"""
+
 import unittest
 from datetime import datetime
 from unittest.mock import patch

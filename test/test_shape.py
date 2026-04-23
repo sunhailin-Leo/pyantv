@@ -1,3 +1,5 @@
+"""Shape 形状图基础功能测试。"""
+
 import unittest
 
 from pyantv import options as opts
@@ -8,7 +10,11 @@ from pyantv.globals import ChartType
 from simplejson import JSONEncoder
 
 from test import chart_base_test
-
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+)
 
 TEST_SHAPE_DATA = [
     {"month": "Jan.", "profit": 387264, "start": 0, "end": 387264},
@@ -129,3 +135,24 @@ class TestShapeChart(unittest.TestCase):
         )
 
         return c
+
+    def test_shape_options_validation(self):
+        """验证 Shape 图表的 JSON 配置结构正确性。"""
+        chart = Shape().set_shape_style(
+            x_="50%",
+            y_="50%",
+        )
+        options = chart.options
+        assert_chart_type(options, "shape")
+        assert_options_contains(
+            options,
+            {
+                "type": "shape",
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+            ],
+        )

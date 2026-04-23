@@ -1,3 +1,5 @@
+"""GeoView 地理视图基础功能测试。"""
+
 import unittest
 
 from pyantv import options as opts

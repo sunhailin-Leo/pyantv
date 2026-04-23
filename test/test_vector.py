@@ -1,11 +1,20 @@
+"""Vector 向量图基础功能测试。"""
+
 import unittest
 
-from pyantv import options as opts
+import pyantv.options as opts
+
 from pyantv.charts import Vector
 from pyantv.globals import ChartType
 from pyantv.commons.utils import JsCode
 
 from test import chart_base_test
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+    assert_encode_fields,
+)
 
 
 class TestVectorChart(unittest.TestCase):
@@ -103,3 +112,35 @@ class TestVectorChart(unittest.TestCase):
         )
 
         return c
+
+    def test_vector_options_validation(self):
+        """验证 Vector 图表的 JSON 配置结构正确性。"""
+        TEST_DATA = [
+            {"longitude": 0, "latitude": 0, "u": 1, "v": 1},
+        ]
+        chart = (
+            Vector()
+            .set_data(data=TEST_DATA)
+            .set_encode(
+                x_field_name="longitude",
+                y_field_name="latitude",
+            )
+        )
+        options = chart.options
+        assert_chart_type(options, "vector")
+        assert_encode_fields(options, x="longitude", y="latitude")
+        assert_options_contains(
+            options,
+            {
+                "type": "vector",
+                "data": TEST_DATA,
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "encode",
+            ],
+        )

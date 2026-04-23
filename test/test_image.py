@@ -1,3 +1,5 @@
+"""Image 图片标记基础功能测试。"""
+
 import unittest
 
 from pyantv import options as opts
@@ -6,6 +8,12 @@ from pyantv.commons.utils import JsCode
 from pyantv.globals import ChartType
 
 from test import chart_base_test
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+    assert_encode_fields,
+)
 
 
 TEST_IMAGE_DATA = [
@@ -109,3 +117,36 @@ class TestImageChart(unittest.TestCase):
         )
 
         return c
+
+    def test_image_options_validation(self):
+        """验证 Image 图表的 JSON 配置结构正确性。"""
+        image = (
+            Image()
+            .set_data(data=TEST_IMAGE_DATA)
+            .set_encode(
+                x_field_name="name",
+                y_field_name="value",
+                ext_field={"src": "url"},
+            )
+        )
+        options = image.options
+        assert_chart_type(options, "image")
+        assert_encode_fields(options, x="name", y="value")
+        assert_options_contains(
+            options,
+            {
+                "type": "image",
+                "encode": {"x": "name", "y": "value", "src": "url"},
+                "data": TEST_IMAGE_DATA,
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "encode.x",
+                "encode.y",
+                "encode.src",
+            ],
+        )

@@ -1,0 +1,59 @@
+name: "🐛 Bug Report"
+description: "Report a reproducible bug"
+title: "[Bug] "
+labels: ["bug", "triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: "Thanks for taking the time to fill out this bug report!"
+  - type: input
+    id: version
+    attributes:
+      label: "pyantv version"
+      description: "Run `pip show pyantv` to find the version"
+      placeholder: "0.1.0"
+    validations:
+      required: true
+  - type: dropdown
+    id: python_version
+    attributes:
+      label: "Python version"
+      options: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: "Operating System"
+      options: ["Linux", "macOS", "Windows", "Other"]
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: "Steps to reproduce"
+      description: "Minimal code snippet that reproduces the bug"
+      render: python
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: "Expected behavior"
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: "Actual behavior / traceback"
+      render: shell
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: "Code of Conduct"
+      options:
+        - label: "I agree to follow this project's Code of Conduct"
+          required: true

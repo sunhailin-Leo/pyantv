@@ -1,0 +1,7 @@
+{
+  "test_lttb_100k_to_1k_perf": {
+    "local_threshold_ms": 500,
+    "ci_threshold_ms": 800,
+    "description": "10 万点 LTTB 降采样到 1 千点的性能基线"
+  }
+}

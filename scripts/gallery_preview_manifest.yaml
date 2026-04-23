@@ -1,0 +1,34 @@
+version: 1
+grid:
+  cols: 4
+  rows: 3
+  thumbnail_width: 300
+  thumbnail_height: 220
+  caption_height: 28
+  padding: 8
+  background: "#ffffff"
+examples:
+  - file: line_example.py
+    caption: "Line Chart"
+  - file: interval_example.py
+    caption: "Interval (Bar)"
+  - file: pie_example.py
+    caption: "Pie Chart"
+  - file: area_example.py
+    caption: "Area Chart"
+  - file: point_example.py
+    caption: "Scatter"
+  - file: heatmap_example.py
+    caption: "Heatmap"
+  - file: boxplot_example.py
+    caption: "Box Plot"
+  - file: sankey_example.py
+    caption: "Sankey"
+  - file: treemap_example.py
+    caption: "Treemap"
+  - file: chord_example.py
+    caption: "Chord Diagram"
+  - file: force_graph_example.py
+    caption: "Force Graph"
+  - file: wordcloud_example.py
+    caption: "Word Cloud"

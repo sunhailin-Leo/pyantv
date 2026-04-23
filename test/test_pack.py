@@ -1,3 +1,5 @@
+"""Pack 打包图基础功能测试。"""
+
 import unittest
 
 from simplejson import JSONEncoder
@@ -8,6 +10,12 @@ from pyantv.commons.utils import JsCode
 from pyantv.globals import ChartType
 
 from test import chart_base_test
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+    assert_encode_fields,
+)
 
 
 class CustomJSONEncoder(JSONEncoder):
@@ -61,6 +69,42 @@ class TestPackChart(unittest.TestCase):
         )
 
         return c
+
+    def test_pack_options_validation(self):
+        """验证 Pack 图表的 JSON 配置结构正确性。"""
+        TEST_PACK_DATA = [
+            {"name": "root", "value": 100, "depth": 0},
+            {"name": "child1", "value": 60, "depth": 1},
+            {"name": "child2", "value": 40, "depth": 1},
+        ]
+        pack = (
+            Pack()
+            .set_data(data=TEST_PACK_DATA)
+            .set_encode(
+                value_field="value",
+                color_field="depth",
+            )
+        )
+        options = pack.options
+        assert_chart_type(options, "pack")
+        assert_encode_fields(options, value="value", color="depth")
+        assert_options_contains(
+            options,
+            {
+                "type": "pack",
+                "encode": {"value": "value", "color": "depth"},
+                "data": TEST_PACK_DATA,
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "encode.value",
+                "encode.color",
+            ],
+        )
 
     @chart_base_test(chart_type=ChartType.PACK)
     def test_pack_style(self):

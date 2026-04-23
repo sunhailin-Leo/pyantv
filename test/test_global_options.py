@@ -1,3 +1,5 @@
+"""set_global_options 全局选项设置测试。"""
+
 import unittest
 
 from pyantv.commons.utils import remove_key_with_none_value
@@ -112,6 +114,9 @@ from pyantv.options.global_options import (
     InteractionMarkerStyleOpts,
     InteractionTooltipOpts,
     InteractionOpts,
+    LineAnnotationOpts,
+    RegionAnnotationOpts,
+    TextAnnotationOpts,
 )
 
 
@@ -1382,9 +1387,7 @@ class TestGlobalOptions(unittest.TestCase):
         )
 
     def test_scroll_bar_cfg_opts(self):
-        obj = ScrollBarCfgOpts(
-            ratio=0.5, value=20, is_slidable=True, is_scrollable=True
-        )
+        obj = ScrollBarCfgOpts(ratio=0.5, value=20, is_slidable=True, is_scrollable=True)
         self.assertEqual(
             obj.opts,
             {
@@ -1750,7 +1753,7 @@ class TestGlobalOptions(unittest.TestCase):
             {
                 "connectorOpacity": 0.75,
                 "backgroundOpacity": 0.75,
-            }
+            },
         )
 
     def test_interaction_mask_style_opts(self):
@@ -2001,9 +2004,7 @@ class TestGlobalOptions(unittest.TestCase):
         )
 
         obj = InteractionElementHighlightOpts(
-            background_style_opts=InteractionBackgroundStyleOpts(
-                background_fill="#000"
-            ),
+            background_style_opts=InteractionBackgroundStyleOpts(background_fill="#000"),
         )
         self.assertEqual(
             remove_key_with_none_value(obj.opts),
@@ -2364,5 +2365,90 @@ class TestGlobalOptions(unittest.TestCase):
                 "legendHighlight": None,
                 "poptip": None,
                 "tooltip": None,
+            },
+        )
+
+    def test_region_annotation_opts(self):
+        """Test RegionAnnotationOpts instantiation."""
+        obj = RegionAnnotationOpts()
+        self.assertEqual(
+            obj.opts,
+            {"type": "range"},
+        )
+
+        obj = RegionAnnotationOpts(
+            x_start=0,
+            x_end=10,
+            y_start=0,
+            y_end=20,
+            fill="red",
+            fill_opacity=0.5,
+            style={"stroke": "black"},
+        )
+        self.assertEqual(
+            remove_key_with_none_value(obj.opts),
+            {
+                "type": "range",
+                "data": [
+                    {
+                        "xStart": 0,
+                        "xEnd": 10,
+                        "yStart": 0,
+                        "yEnd": 20,
+                    }
+                ],
+                "style": {
+                    "fill": "red",
+                    "fillOpacity": 0.5,
+                    "stroke": "black",
+                },
+            },
+        )
+
+    def test_line_annotation_opts(self):
+        """Test LineAnnotationOpts instantiation."""
+        obj = LineAnnotationOpts()
+        self.assertEqual(obj.opts["type"], "lineX")
+
+        obj_x = LineAnnotationOpts(x=10)
+        self.assertEqual(obj_x.opts["type"], "lineX")
+        self.assertEqual(obj_x.opts["data"], [10])
+
+        obj_y = LineAnnotationOpts(y=50)
+        self.assertEqual(obj_y.opts["type"], "lineY")
+        self.assertEqual(obj_y.opts["data"], [50])
+
+        obj_full = LineAnnotationOpts(y=100, text="ref", style={"stroke": "red"})
+        self.assertEqual(obj_full.opts["type"], "lineY")
+        self.assertEqual(obj_full.opts["labels"], [{"text": "ref"}])
+        self.assertEqual(obj_full.opts["style"], {"stroke": "red"})
+
+    def test_text_annotation_opts(self):
+        """Test TextAnnotationOpts instantiation."""
+        obj = TextAnnotationOpts()
+        self.assertEqual(
+            obj.opts,
+            {"type": "text", "encode": {"text": ""}},
+        )
+
+        obj = TextAnnotationOpts(
+            x=10,
+            y=20,
+            text="Annotation",
+            font_size=14,
+            fill="blue",
+            style={"fontWeight": "bold"},
+        )
+        self.assertEqual(
+            remove_key_with_none_value(obj.opts),
+            {
+                "type": "text",
+                "data": [{"x": 10, "y": 20}],
+                "encode": {"text": "Annotation"},
+                "style": {
+                    "fontSize": 14,
+                    "fill": "blue",
+                    "fontWeight": "bold",
+                },
             },
         )
