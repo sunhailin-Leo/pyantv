@@ -5,6 +5,14 @@
 
 ## [0.2.0]
 
+### Removed
+
+- **Python 3.8 支持**：Python 3.8 已于 2024-10-07 正式 EOL，且大量上游开发依赖（如 `black>=25.1`、`mypy` 新版等）已不再支持 3.8，导致 `uv sync` 在 universal lock 求解阶段无法找到可行解。`requires-python` 收紧到 `>=3.9`；`pyproject.toml` classifier、CI 矩阵、Issue 模板下拉选项同步移除 3.8
+
+### Changed
+
+- **PEP 735 dependency groups 迁移**：`dev` / `test` / `docs` 三组开发向依赖从 `[project.optional-dependencies]` 迁移到 `[dependency-groups]`（PEP 735），与 uv/pip 官方主推方向对齐；安装命令从 `uv sync --dev --extra all` / `pip install -e '.[dev,test,all]'` 切换为 `uv sync --group dev --group test --extra all` / `pip install -e '.[all]' --group dev --group test --group docs`（后者需要 pip >= 25.1）；用户向 `pip install pyantv[all]` 等用法不受影响
+
 ### Added
 
 - **文档 CI 校验**：`.github/workflows/python-app.yml` 新增 `docs` job，每次 push / PR 都执行 `uv run mkdocs build --strict`，任何死链 / 未引用文档 / Markdown 解析告警都会让 CI 失败

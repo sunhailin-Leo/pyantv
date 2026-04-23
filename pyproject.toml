@@ -1,12 +1,16 @@
 # ============================================================================
-# pyantv 现代化打包配置（Sprint 62）
+# pyantv 现代化打包配置（Sprint 62 引入；Sprint 74 起：dev/test/docs 迁移到 PEP 735）
 #
 # 本文件是 pyantv 项目依赖与元数据的 Single Source of Truth。
 # - build-backend 采用官方推荐的 setuptools.build_meta（PEP 517/518/660 兼容）
-# - optional-dependencies 覆盖 pandas / numpy / export / streamlit / notebook /
-#   offline / docs / test / dev / all 10 个分组
-# - 不定义 [tool.uv].dev-dependencies，避免与 [project.optional-dependencies].dev
-#   冲突（依赖 uv 0.4+ 对 [project.optional-dependencies] 的原生 extras 支持）
+# - 用户向运行时可选依赖（pandas / numpy / export / streamlit / notebook /
+#   offline / all）保留在 [project.optional-dependencies]，可通过
+#   `pip install pyantv[xxx]` 安装。
+# - 开发向依赖（dev / test / docs）放在 PEP 735 [dependency-groups]，
+#   通过 `uv sync --group <name>` 或 `pip install --group <name>`（pip>=25.1）
+#   安装；不会进入 wheel，也不会污染包元数据。
+# - requires-python = ">=3.9"（Python 3.8 已于 2024-10 EOL，且大量上游
+#   开发依赖如 black>=25.1 已不再支持 3.8）
 # ============================================================================
 
 [build-system]
@@ -19,7 +23,7 @@ dynamic = ["version"]
 description = "Python visualization SDK for AntV"
 readme = "README.md"
 license = {text = "MIT"}
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 authors = [
     {name = "sunhailin-Leo", email = "shjkfld379978424@gmail.com"},
 ]
@@ -33,7 +37,6 @@ classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -137,7 +140,7 @@ profile = "black"
 line_length = 89
 
 [tool.mypy]
-python_version = "3.8"
+python_version = "3.9"
 ignore_missing_imports = true
 exclude = [
     "^test/",
