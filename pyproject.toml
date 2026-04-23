@@ -126,7 +126,7 @@ exclude = ["test*", "benchmarks*", "examples*", "scripts*"]
 # ---------------------------------------------------------------------------
 # setuptools-scm 版本管理（Sprint 72）
 # ---------------------------------------------------------------------------
-[tool.setuptools-scm]
+[tool.setuptools_scm]
 write_to = "pyantv/_version.py"
 fallback_version = "0.1.0"
 
