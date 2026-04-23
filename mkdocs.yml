@@ -106,6 +106,8 @@ nav:
   - API 参考: api-reference.md
   - 对比: comparison.md
   - 贡献指南: CONTRIBUTING.md
+  - 使用指南:
+    - Notebook 使用指南: notebook-guide.md
   - 开发者指南:
     - CI / CD 流程: development/ci.md
   - 更新日志: changelog.md
