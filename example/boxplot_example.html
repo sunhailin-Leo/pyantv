@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyantv</title>
+                <script type="text/javascript" src="https://unpkg.com/@antv/g2/dist/g2.min.js"></script>
+
+    
+</head>
+<body >
+    <div id="16396f32f6cd4d02a6c93b63480bcbea" class="chart-container" style="width:900px; height:500px; "></div>
+    <script>
+        const antv_chart_16396f32f6cd4d02a6c93b63480bcbea = new G2.Chart({"container": "16396f32f6cd4d02a6c93b63480bcbea"});
+        antv_chart_16396f32f6cd4d02a6c93b63480bcbea.options({
+    "type": "boxplot",
+    "data": {
+        "type": "fetch",
+        "value": "https://assets.antv.antgroup.com/g2/morley.json"
+    },
+    "encode": {
+        "x": "Expt",
+        "y": "Speed"
+    },
+    "inset": 6,
+    "paddingLeft": "60"
+});
+        antv_chart_16396f32f6cd4d02a6c93b63480bcbea.render();
+    </script>
+</body>
+</html>

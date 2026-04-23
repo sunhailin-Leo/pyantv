@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyantv</title>
+                <script type="text/javascript" src="https://unpkg.com/@antv/g2/dist/g2.min.js"></script>
+
+    
+</head>
+<body >
+    <div id="77b4da8b37ca463a960c895c01fc2163" class="chart-container" style="width:900px; height:500px; "></div>
+    <script>
+        const antv_chart_77b4da8b37ca463a960c895c01fc2163 = new G2.Chart({"container": "77b4da8b37ca463a960c895c01fc2163"});
+        antv_chart_77b4da8b37ca463a960c895c01fc2163.options({
+    "type": "point",
+    "data": {
+        "type": "fetch",
+        "value": "https://gw.alipayobjects.com/os/basement_prod/6b4aa721-b039-49b9-99d8-540b3f87d339.json"
+    },
+    "encode": {
+        "x": "height",
+        "y": "weight",
+        "color": "gender"
+    }
+});
+        antv_chart_77b4da8b37ca463a960c895c01fc2163.render();
+    </script>
+</body>
+</html>

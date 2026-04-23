@@ -1,0 +1,32 @@
+{
+  "coordinate": {
+    "innerRadius": 0.3,
+    "outerRadius": 0.9,
+    "type": "polar"
+  },
+  "data": [
+    {
+      "item": "A",
+      "value": 40
+    },
+    {
+      "item": "B",
+      "value": 60
+    },
+    {
+      "item": "C",
+      "value": 30
+    }
+  ],
+  "encode": {
+    "color": "item",
+    "x": "item",
+    "y": "value"
+  },
+  "transform": [
+    {
+      "type": "stackY"
+    }
+  ],
+  "type": "interval"
+}

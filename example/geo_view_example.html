@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyantv</title>
+                <script type="text/javascript" src="https://unpkg.com/@antv/g2/dist/g2.min.js"></script>
+            <script type="text/javascript" src="https://unpkg.com/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+
+    
+</head>
+<body >
+    <div id="cf1c506bc55142ec8aedfb9e864c8939" class="chart-container" style="width:900px; height:500px; "></div>
+    <script>
+            
+        G2.register('data.feature', ({ name }) => {
+            return (data) => topojson.feature(data, data.objects[name]).features;
+        });
+        
+        const antv_chart_cf1c506bc55142ec8aedfb9e864c8939 = new G2.Chart({"container": "cf1c506bc55142ec8aedfb9e864c8939"});
+        antv_chart_cf1c506bc55142ec8aedfb9e864c8939.options({
+    "type": "geoView",
+    "children": [
+        {
+            "type": "geoPath",
+            "data": {
+                "type": "graticule10"
+            },
+            "style": {
+                "fill": "none",
+                "stroke": "#ccc"
+            }
+        },
+        {
+            "type": "geoPath",
+            "data": {
+                "type": "fetch",
+                "value": "https://assets.antv.antgroup.com/g2/countries-50m.json",
+                "transform": [
+                    {
+                        "type": "feature",
+                        "name": "land"
+                    }
+                ]
+            },
+            "style": {
+                "fill": "black"
+            }
+        },
+        {
+            "type": "geoPath",
+            "data": {
+                "type": "sphere"
+            },
+            "style": {
+                "fill": "none",
+                "stroke": "black"
+            }
+        }
+    ],
+    "coordinate": {
+        "type": "orthographic"
+    }
+});
+        antv_chart_cf1c506bc55142ec8aedfb9e864c8939.render();
+    </script>
+</body>
+</html>

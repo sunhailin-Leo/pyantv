@@ -1,0 +1,28 @@
+{
+  "animate": {
+    "enter": {
+      "duration": 800,
+      "easing": "ease-in-out",
+      "type": "fadeIn"
+    },
+    "exit": {
+      "duration": 300,
+      "type": "fadeOut"
+    }
+  },
+  "data": [
+    {
+      "x": 1,
+      "y": 2
+    },
+    {
+      "x": 3,
+      "y": 4
+    }
+  ],
+  "encode": {
+    "x": "x",
+    "y": "y"
+  },
+  "type": "line"
+}

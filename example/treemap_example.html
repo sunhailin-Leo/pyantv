@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyantv</title>
+                <script type="text/javascript" src="https://unpkg.com/@antv/g2/dist/g2.min.js"></script>
+
+    
+</head>
+<body >
+    <div id="2a3a869b26f747259dd5e062d9686500" class="chart-container" style="width:1100px; height:900px; "></div>
+    <script>
+        const antv_chart_2a3a869b26f747259dd5e062d9686500 = new G2.Chart({"container": "2a3a869b26f747259dd5e062d9686500", "autoFit": true});
+        antv_chart_2a3a869b26f747259dd5e062d9686500.options({
+    "type": "treemap",
+    "data": {
+        "type": "fetch",
+        "value": "https://assets.antv.antgroup.com/g2/flare-treemap.json"
+    },
+    "encode": {
+        "value": "size"
+    },
+    "scale": {
+        "color": {
+            "range": [
+                "#4e79a7",
+                "#f28e2c",
+                "#e15759",
+                "#76b7b2",
+                "#59a14f",
+                "#edc949",
+                "#af7aa1",
+                "#ff9da7",
+                "#9c755f",
+                "#bab0ab"
+            ]
+        }
+    },
+    "style": {
+        "fillOpacity": 0.5,
+        "labelText": (d) => d.data.name.split('.').pop().split(/(?=[A-Z][a-z])/g)[0],
+        "labelPosition": "top-left",
+        "labelFill": "#000"
+    },
+    "layout": {
+        "paddingInner": 1,
+        "path": (d) => d.name.replace(/\./g, '/'),
+        "tile": "treemapBinary"
+    }
+});
+        antv_chart_2a3a869b26f747259dd5e062d9686500.render();
+    </script>
+</body>
+</html>

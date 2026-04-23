@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyantv</title>
+                <script type="text/javascript" src="https://unpkg.com/@antv/g2/dist/g2.min.js"></script>
+
+    
+</head>
+<body >
+    <div id="1515f60ebc234664b98942bc5c1f8fe8" class="chart-container" style="width:900px; height:500px; "></div>
+    <script>
+        const antv_chart_1515f60ebc234664b98942bc5c1f8fe8 = new G2.Chart({"container": "1515f60ebc234664b98942bc5c1f8fe8"});
+        antv_chart_1515f60ebc234664b98942bc5c1f8fe8.options({
+    "type": "cell",
+    "data": {
+        "type": "fetch",
+        "value": "https://gw.alipayobjects.com/os/bmw-prod/bd287f2c-3e2b-4d0a-8428-6a85211dce33.json"
+    },
+    "encode": {
+        "x": "x",
+        "y": "y",
+        "color": "index"
+    },
+    "scale": {
+        "color": {
+            "type": "ordinal"
+        }
+    },
+    "style": {
+        "stroke": "#000",
+        "inset": 2
+    },
+    "animate": {
+        "enter": {
+            "type": "fadeIn"
+        }
+    }
+});
+        antv_chart_1515f60ebc234664b98942bc5c1f8fe8.render();
+    </script>
+</body>
+</html>

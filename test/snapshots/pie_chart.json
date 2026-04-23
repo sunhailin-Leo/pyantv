@@ -1,0 +1,33 @@
+{
+  "coordinate": {
+    "type": "theta"
+  },
+  "data": [
+    {
+      "count": 40,
+      "item": "A"
+    },
+    {
+      "count": 30,
+      "item": "B"
+    },
+    {
+      "count": 20,
+      "item": "C"
+    },
+    {
+      "count": 10,
+      "item": "D"
+    }
+  ],
+  "encode": {
+    "color": "item",
+    "y": "count"
+  },
+  "transform": [
+    {
+      "type": "stackY"
+    }
+  ],
+  "type": "interval"
+}

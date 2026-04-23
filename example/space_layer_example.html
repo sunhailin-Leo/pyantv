@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyantv</title>
+                <script type="text/javascript" src="https://unpkg.com/@antv/g2/dist/g2.min.js"></script>
+
+    
+</head>
+<body >
+    <div id="8edcbffbd0fd47fc8dbcd08093bf2a39" class="chart-container" style="width:900px; height:500px; "></div>
+    <script>
+        const antv_chart_8edcbffbd0fd47fc8dbcd08093bf2a39 = new G2.Chart({"container": "8edcbffbd0fd47fc8dbcd08093bf2a39"});
+        antv_chart_8edcbffbd0fd47fc8dbcd08093bf2a39.options({
+    "type": "spaceLayer",
+    "data": {
+        "type": "fetch",
+        "value": "https://gw.alipayobjects.com/os/bmw-prod/fb9db6b7-23a5-4c23-bbef-c54a55fee580.csv",
+        "format": "csv"
+    },
+    "children": [
+        {
+            "type": "interval",
+            "encode": {
+                "x": "letter",
+                "y": "frequency",
+                "color": "letter"
+            },
+            "transform": [
+                {
+                    "type": "sortX",
+                    "reverse": true,
+                    "by": "y"
+                }
+            ],
+            "scale": {
+                "color": {
+                    "palette": "cool",
+                    "offset": (t) => t * 0.8 + 0.1
+                }
+            }
+        },
+        {
+            "type": "interval",
+            "encode": {
+                "y": "frequency",
+                "color": "letter"
+            },
+            "x": 300,
+            "y": 50,
+            "width": 300,
+            "height": 300,
+            "transform": [
+                {
+                    "type": "stackY"
+                }
+            ],
+            "coordinate": {
+                "type": "theta"
+            },
+            "legend": false,
+            "scale": {
+                "color": {
+                    "palette": "cool",
+                    "offset": (t) => t * 0.8 + 0.1
+                }
+            }
+        }
+    ]
+});
+        antv_chart_8edcbffbd0fd47fc8dbcd08093bf2a39.render();
+    </script>
+</body>
+</html>

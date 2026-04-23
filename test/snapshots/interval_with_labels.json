@@ -1,0 +1,21 @@
+{
+  "data": [
+    {
+      "category": "A",
+      "value": 30
+    },
+    {
+      "category": "B",
+      "value": 70
+    }
+  ],
+  "encode": {
+    "x": "category",
+    "y": "value"
+  },
+  "labels": {
+    "fontSize": 14,
+    "position": "top"
+  },
+  "type": "interval"
+}

@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "x": 1,
+      "y": 2
+    },
+    {
+      "x": 3,
+      "y": 4
+    }
+  ],
+  "encode": {
+    "x": "x",
+    "y": "y"
+  },
+  "title": {
+    "align": "center",
+    "subtitle": "2020-2022",
+    "title": "Revenue Trend"
+  },
+  "type": "line"
+}

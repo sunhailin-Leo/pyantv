@@ -1,0 +1,46 @@
+{
+  "animate": {
+    "enter": {
+      "duration": 600,
+      "type": "growInY"
+    }
+  },
+  "data": [
+    {
+      "month": "Jan",
+      "type": "Sales",
+      "value": 100
+    },
+    {
+      "month": "Jan",
+      "type": "Profit",
+      "value": 40
+    },
+    {
+      "month": "Feb",
+      "type": "Sales",
+      "value": 150
+    },
+    {
+      "month": "Feb",
+      "type": "Profit",
+      "value": 60
+    }
+  ],
+  "encode": {
+    "color": "type",
+    "x": "month",
+    "y": "value"
+  },
+  "legend": false,
+  "scale": {
+    "x": {
+      "type": "linear"
+    }
+  },
+  "title": {
+    "title": "Monthly Report"
+  },
+  "tooltip": false,
+  "type": "interval"
+}

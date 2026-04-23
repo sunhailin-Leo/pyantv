@@ -1,0 +1,30 @@
+{
+  "data": [
+    {
+      "category": "A",
+      "value": 100,
+      "year": "2020"
+    },
+    {
+      "category": "B",
+      "value": 80,
+      "year": "2020"
+    },
+    {
+      "category": "A",
+      "value": 200,
+      "year": "2021"
+    },
+    {
+      "category": "B",
+      "value": 150,
+      "year": "2021"
+    }
+  ],
+  "encode": {
+    "color": "category",
+    "x": "year",
+    "y": "value"
+  },
+  "type": "line"
+}

@@ -1,0 +1,30 @@
+{
+  "coordinate": {
+    "innerRadius": 0.5,
+    "type": "theta"
+  },
+  "data": [
+    {
+      "count": 40,
+      "item": "A"
+    },
+    {
+      "count": 30,
+      "item": "B"
+    },
+    {
+      "count": 20,
+      "item": "C"
+    }
+  ],
+  "encode": {
+    "color": "item",
+    "y": "count"
+  },
+  "transform": [
+    {
+      "type": "stackY"
+    }
+  ],
+  "type": "interval"
+}

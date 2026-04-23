@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyantv</title>
+                <script type="text/javascript" src="https://unpkg.com/@antv/g2/dist/g2.min.js"></script>
+
+    
+</head>
+<body >
+    <div id="7b925f9039c04e83a5bc41f079c28dd2" class="chart-container" style="width:800px; height:1500px; "></div>
+    <script>
+        const antv_chart_7b925f9039c04e83a5bc41f079c28dd2 = new G2.Chart({"container": "7b925f9039c04e83a5bc41f079c28dd2", "autoFit": true, "insetLeft": 15, "insetRight": 80});
+        antv_chart_7b925f9039c04e83a5bc41f079c28dd2.options({
+    "type": "tree",
+    "data": {
+        "type": "fetch",
+        "value": "https://assets.antv.antgroup.com/g2/flare.json"
+    },
+    "layout": {
+        "sortBy": (a, b) => a.value - b.value
+    },
+    "coordinate": {
+        "transform": [
+            {
+                "type": "transpose"
+            }
+        ]
+    },
+    "style": {
+        "labelText": (d) => d.data.name || '-',
+        "labelTextAlign": (d) => (d.height === 0 ? "start" : "end"),
+        "labelPosition": (d) => (d.height !== 0 ? "left" : "right"),
+        "labelDx": (d) => (d.height === 0 ? 5 : -5),
+        "labelBackground": true,
+        "labelBackgroundFill": "#fff",
+        "labelFontSize": (d) => (d.height === 0 ? 7 : 12),
+        "nodeFill": (d) => (d.height === 0 ? "#999" : "#000"),
+        "linkStroke": "#999"
+    }
+});
+        antv_chart_7b925f9039c04e83a5bc41f079c28dd2.render();
+    </script>
+</body>
+</html>

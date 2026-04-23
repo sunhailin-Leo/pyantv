@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyantv</title>
+                <script type="text/javascript" src="https://unpkg.com/@antv/g2/dist/g2.min.js"></script>
+
+    
+</head>
+<body >
+    <div id="28aabb17590749c18ef44899defdd6d1" class="chart-container" style="width:928px; height:270px; "></div>
+    <script>
+        const antv_chart_28aabb17590749c18ef44899defdd6d1 = new G2.Chart({"container": "28aabb17590749c18ef44899defdd6d1", "autoFit": true, "paddingBottom": 50});
+        antv_chart_28aabb17590749c18ef44899defdd6d1.options({
+    "type": "facetRect",
+    "data": {
+        "type": "fetch",
+        "value": "https://assets.antv.antgroup.com/g2/anscombe.json"
+    },
+    "encode": {
+        "x": "series"
+    },
+    "children": [
+        {
+            "type": "point",
+            "encode": {
+                "x": "x",
+                "y": "y"
+            },
+            "style": {
+                "stroke": "#000"
+            },
+            "inset": 10
+        }
+    ],
+    "paddingBottom": 50
+});
+        antv_chart_28aabb17590749c18ef44899defdd6d1.render();
+    </script>
+</body>
+</html>

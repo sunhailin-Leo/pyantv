@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyantv</title>
+                <script type="text/javascript" src="https://unpkg.com/@antv/g2/dist/g2.min.js"></script>
+
+    
+</head>
+<body >
+    <div id="1f9d814e193948aa866ac118282da9c9" class="chart-container" style="width:1000px; height:1000px; "></div>
+    <script>
+        const antv_chart_1f9d814e193948aa866ac118282da9c9 = new G2.Chart({"container": "1f9d814e193948aa866ac118282da9c9", "autoFit": true});
+        antv_chart_1f9d814e193948aa866ac118282da9c9.options({
+    "type": "pack",
+    "data": {
+        "type": "fetch",
+        "value": "https://assets.antv.antgroup.com/g2/flare.json"
+    },
+    "encode": {
+        "color": "depth",
+        "value": "value"
+    },
+    "scale": {
+        "color": {
+            "type": "linear",
+            "domain": [
+                0,
+                5
+            ],
+            "range": [
+                "hsl(152,80%,80%)",
+                "hsl(228,30%,40%)"
+            ]
+        }
+    },
+    "layout": {
+        "padding": 5
+    },
+    "style": {
+        "labelText": (d) => (d.r >= 10 && d.height === 0 ? `${d.data.name}` : "")
+    },
+    "legend": false
+});
+        antv_chart_1f9d814e193948aa866ac118282da9c9.render();
+    </script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "data": [
+    {
+      "x": 1,
+      "y": 100
+    },
+    {
+      "x": 2,
+      "y": 200
+    }
+  ],
+  "encode": {
+    "x": "x",
+    "y": "y"
+  },
+  "scale": {
+    "color": {
+      "type": "ordinal"
+    },
+    "x": {
+      "type": "linear"
+    }
+  },
+  "type": "line"
+}
