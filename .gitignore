@@ -173,6 +173,9 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
+# setuptools-scm generated version file
+pyantv/_version.py
+
 # Harness — AI Agent 产物（动态生成，不提交）
 .harness/sprints/sprint-*-contract.md
 .harness/sprints/sprint-*-result.md
