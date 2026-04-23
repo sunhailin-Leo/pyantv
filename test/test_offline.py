@@ -344,11 +344,15 @@ class TestCrossPlatformFileUri(unittest.TestCase):
 
     def test_file_uri_generation(self):
         """测试 file:// URI 生成（S-CROSS-PLATFORM-FILE-URI）。"""
-        # 使用 pathlib.Path.as_uri() 生成跨平台 URI
-        test_path = Path("/tmp/assets/g2.min.js")
+        # 使用 pathlib.Path.as_uri() 生成跨平台 URI。
+        # 注意：as_uri() 要求传入绝对路径，Windows 上 "/tmp/..." 是相对路径会抛
+        # ValueError，因此用 tempfile.gettempdir() 拿到当前平台真实的绝对临时目录。
+        import tempfile
+
+        test_path = Path(tempfile.gettempdir()) / "assets" / "g2.min.js"
         file_uri = test_path.as_uri()
         self.assertTrue(file_uri.startswith("file://"))
-        # macOS/Linux 路径
+        # 文件名在 URI 中保留
         self.assertIn("g2.min.js", file_uri)
 
     def test_windows_path_uri(self):

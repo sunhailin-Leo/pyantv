@@ -116,6 +116,8 @@ class TestGalleryPreview:
     @pytest.mark.slow
     def test_gallery_preview_roughly_stable(self, tmp_path):
         """Test that gallery preview generation is stable (L1 histogram diff < 5%)."""
+        import sys
+
         script_path = PROJECT_ROOT / "scripts" / "gen_gallery_preview.py"
         manifest_path = PROJECT_ROOT / "scripts" / "gallery_preview_manifest.yaml"
 
@@ -123,10 +125,12 @@ class TestGalleryPreview:
             pytest.skip("gen_gallery_preview.py not found")
 
         # Generate first preview
+        # 必须用 sys.executable 而不是字符串 "python"，否则 Windows CI 上 PATH 解析到的
+        # 是系统 Python（没有 yaml/PIL 等依赖），导致 ModuleNotFoundError。
         output1 = tmp_path / "preview1.png"
         subprocess.run(
             [
-                "python",
+                sys.executable,
                 str(script_path),
                 "--manifest",
                 str(manifest_path),
@@ -141,7 +145,7 @@ class TestGalleryPreview:
         output2 = tmp_path / "preview2.png"
         subprocess.run(
             [
-                "python",
+                sys.executable,
                 str(script_path),
                 "--manifest",
                 str(manifest_path),
@@ -172,6 +176,8 @@ class TestGalleryPreview:
 
     def test_script_does_not_pollute_example_dir(self, tmp_path):
         """Test that running the script does not create .html files in example/."""
+        import sys
+
         script_path = PROJECT_ROOT / "scripts" / "gen_gallery_preview.py"
         manifest_path = PROJECT_ROOT / "scripts" / "gallery_preview_manifest.yaml"
         examples_dir = PROJECT_ROOT / "example"
@@ -182,11 +188,11 @@ class TestGalleryPreview:
         # Count .html files before
         html_files_before = list(examples_dir.glob("*.html"))
 
-        # Run the script
+        # Run the script — 同上，必须用 sys.executable 保证子进程在当前 venv 里执行。
         output_path = tmp_path / "preview.png"
         subprocess.run(
             [
-                "python",
+                sys.executable,
                 str(script_path),
                 "--manifest",
                 str(manifest_path),

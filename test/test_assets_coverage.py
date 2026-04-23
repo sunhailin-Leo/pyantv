@@ -141,7 +141,10 @@ class TestInstallAssets(unittest.TestCase):
         mock_response.__enter__ = MagicMock(return_value=mock_response)
         mock_response.__exit__ = MagicMock(return_value=False)
 
-        default_dir = os.path.expanduser("~/.pyantv/assets")
+        # 用 normpath 规范化为当前平台的分隔符，避免在 Windows 上
+        # "C:\\Users\\x/.pyantv/assets" 与 "C:\\Users\\x\\.pyantv\\assets\\test.min.js"
+        # 因混合分隔符导致 assertIn 误判。
+        default_dir = os.path.normpath(os.path.expanduser("~/.pyantv/assets"))
 
         with patch(
             "urllib.request.urlopen",
@@ -154,7 +157,7 @@ class TestInstallAssets(unittest.TestCase):
             )
 
         self.assertIn("TestLib", result)
-        self.assertIn(default_dir, result["TestLib"])
+        self.assertIn(default_dir, os.path.normpath(result["TestLib"]))
         # 清理下载的文件
         downloaded_file = result["TestLib"]
         if os.path.exists(downloaded_file):
