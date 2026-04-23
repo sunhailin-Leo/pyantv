@@ -16,6 +16,17 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Fetch all tags
+        run: git fetch --tags --force
+
+      - name: Debug version info
+        run: |
+          echo "Git describe: $(git describe --tags --always)"
+          echo "Git tag list:"
+          git tag -l 'v*'
+          echo "GITHUB_REF: ${{ github.ref }}"
+          echo "GITHUB_REF_NAME: ${{ github.ref_name }}"
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -26,7 +37,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install build twine setuptools-scm
 
+      - name: Verify setuptools-scm version
+        run: |
+          python -c "from setuptools_scm import get_version; print('setuptools-scm version:', get_version())"
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
       - name: Build package
+        env:
+          SETUPTOOLS_SCM_PRETEND_VERSION: ${{ steps.version.outputs.VERSION }}
         run: python -m build
 
       - name: Verify package
