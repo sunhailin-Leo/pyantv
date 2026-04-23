@@ -63,6 +63,42 @@ jobs:
         python -m pip install --upgrade pip
         pip install uv
         uv sync --group dev --group test --extra all
+    # ----------------------------------------------------------------------
+    # Playwright 浏览器二进制处理
+    # ----------------------------------------------------------------------
+    # Playwright 的 Python 包不会自带浏览器二进制（约 170MB），必须执行
+    # `playwright install chromium`，否则真实拉起浏览器的测试会以
+    # "Executable doesn't exist at .../chrome-headless-shell" 失败。
+    #
+    # 为避免每次 CI 都重复下载（5 OS × 5 Python = 15 个 job），用
+    # actions/cache 缓存浏览器目录。cache key 绑定 OS + 实际安装的
+    # Playwright 版本号，依赖升级时自动失效重建。
+    #
+    # 注意：Linux 上的 `--with-deps` 会通过 apt 安装系统库（libnss3 等），
+    # 这部分**不能被缓存**且每次都需要 root 权限执行，因此 Linux 即便
+    # 浏览器命中缓存也仍要跑一次 install（命中时只补系统依赖，不重新下载）。
+    - name: Resolve Playwright version
+      shell: bash
+      run: |
+        PW_VERSION=$(uv run python -c "import importlib.metadata as m; print(m.version('playwright'))")
+        echo "PLAYWRIGHT_VERSION=${PW_VERSION}" >> "$GITHUB_ENV"
+        echo "Detected Playwright version: ${PW_VERSION}"
+    - name: Cache Playwright browsers
+      id: playwright-cache
+      uses: actions/cache@v4
+      with:
+        # 三平台默认下载目录，未存在的路径 actions/cache 会自动忽略
+        path: |
+          ~/.cache/ms-playwright
+          ~/Library/Caches/ms-playwright
+          ~\AppData\Local\ms-playwright
+        key: playwright-${{ runner.os }}-${{ env.PLAYWRIGHT_VERSION }}-chromium
+    - name: Install Playwright browsers (Linux, always run for system deps)
+      if: runner.os == 'Linux'
+      run: uv run playwright install --with-deps chromium
+    - name: Install Playwright browsers (macOS / Windows, skip on cache hit)
+      if: runner.os != 'Linux' && steps.playwright-cache.outputs.cache-hit != 'true'
+      run: uv run playwright install chromium
     - name: Build sdist + wheel (PEP 517)
       run: uv run python -m build
     - name: Run unit tests with coverage
