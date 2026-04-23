@@ -4,7 +4,8 @@
 # 本测试文件不依赖任何第三方测试框架以外的东西，只使用 stdlib + pytest。
 # 覆盖合约 CODE 段定义的 9 个关键测试用例：
 #   T-BUILD-BACKEND        build-backend 字段为 setuptools.build_meta
-#   T-OPT-DEPS             optional-dependencies 包含 10 个必需分组
+#   T-OPT-DEPS             optional-dependencies 包含必需的"用户向"分组，
+#                          dev/test/docs 改由 PEP 735 [dependency-groups] 承载
 #   T-NO-UV-DEV-CONFLICT   pyproject.toml 无 [tool.uv].dev-dependencies
 #   T-NO-UPLOAD-COMMAND    setup.py 不再定义 UploadCommand
 #   T-MANIFEST             MANIFEST.in 包含必需条目且无 changelog.md 拼写错误
@@ -30,7 +31,6 @@ try:
 except ModuleNotFoundError:  # pragma: no cover - py38~py310
     import tomli as tomllib  # type: ignore[import-not-found,no-redef]
 
-
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 PYPROJECT = PROJECT_ROOT / "pyproject.toml"
 SETUP_PY = PROJECT_ROOT / "setup.py"
@@ -38,12 +38,10 @@ MANIFEST = PROJECT_ROOT / "MANIFEST.in"
 MAKEFILE = PROJECT_ROOT / "Makefile"
 CI_WORKFLOW = PROJECT_ROOT / ".github" / "workflows" / "python-app.yml"
 
-
 @pytest.fixture(scope="module")
 def pyproject_data() -> dict:
     with PYPROJECT.open("rb") as f:
         return tomllib.load(f)
-
 
 # ---------------------------------------------------------------------------
 # T-PYPROJECT-VALID-TOML：pyproject.toml 必须是合法 TOML
@@ -51,7 +49,6 @@ def pyproject_data() -> dict:
 def test_pyproject_is_valid_toml(pyproject_data: dict) -> None:
     assert "project" in pyproject_data, "pyproject.toml 缺少 [project] 段"
     assert pyproject_data["project"]["name"] == "pyantv"
-
 
 # ---------------------------------------------------------------------------
 # T-BUILD-BACKEND：build-backend 字段必须是官方的 setuptools.build_meta
@@ -70,28 +67,31 @@ def test_build_backend_is_setuptools_build_meta(pyproject_data: dict) -> None:
         "setuptools" in r for r in requires
     ), "build-system.requires 缺少 setuptools"
 
-
 # ---------------------------------------------------------------------------
-# T-OPT-DEPS：optional-dependencies 必须包含合约要求的 10 个分组
+# T-OPT-DEPS：依赖分组分两类：
+#   1) [project.optional-dependencies] 只放"用户向"特性分组（pip install pyantv[xxx]）
+#   2) [dependency-groups]（PEP 735）放"开发向"分组（dev/test/docs），
+#      由 uv sync --group dev 等命令安装，不污染发布 wheel 元数据
+# 这样既符合 PEP 621/735 现代规范，又能保证 `pip install pyantv[all]` 不会
+# 把 pytest/mkdocs/twine 等 500MB+ 开发依赖拉下来。
 # ---------------------------------------------------------------------------
-REQUIRED_OPT_GROUPS = {
+REQUIRED_USER_OPT_GROUPS = {
     "pandas",
     "numpy",
     "export",
     "streamlit",
     "notebook",
     "offline",
-    "docs",
-    "test",
-    "dev",
     "all",
 }
-
+REQUIRED_DEV_GROUPS = {"dev", "test", "docs"}
 
 def test_optional_dependencies_cover_all_groups(pyproject_data: dict) -> None:
     opt = pyproject_data["project"].get("optional-dependencies", {})
-    missing = REQUIRED_OPT_GROUPS - set(opt.keys())
-    assert not missing, f"pyproject.toml 缺少 optional-dependencies 分组：{missing}"
+    missing_user = REQUIRED_USER_OPT_GROUPS - set(opt.keys())
+    assert not missing_user, (
+        f"pyproject.toml [project.optional-dependencies] 缺少用户向分组：{missing_user}"
+    )
 
     # `all` 分组必须是"用户向"聚合，不得污染 dev/test/docs
     all_deps = " ".join(opt["all"])
@@ -101,18 +101,39 @@ def test_optional_dependencies_cover_all_groups(pyproject_data: dict) -> None:
             "避免 `pip install pyantv[all]` 拉入 500MB+ 无关依赖"
         )
 
+    # dev/test/docs 必须迁移到 PEP 735 [dependency-groups]，
+    # 不应再出现在面向 PyPI 用户的 [project.optional-dependencies]
+    user_opt_polluted = REQUIRED_DEV_GROUPS & set(opt.keys())
+    assert not user_opt_polluted, (
+        "[project.optional-dependencies] 不应再包含开发分组 "
+        f"{user_opt_polluted}，请迁移至 PEP 735 [dependency-groups]"
+    )
+
+def test_dependency_groups_define_dev_test_docs(pyproject_data: dict) -> None:
+    """PEP 735：开发依赖统一放在顶层 [dependency-groups]。"""
+    dep_groups = pyproject_data.get("dependency-groups", {})
+    missing_dev = REQUIRED_DEV_GROUPS - set(dep_groups.keys())
+    assert not missing_dev, (
+        f"pyproject.toml [dependency-groups] 缺少开发分组：{missing_dev}。"
+        "请按 PEP 735 在顶层 [dependency-groups] 中定义 dev / test / docs。"
+    )
+    # dev 组应当至少包含 test/docs 的关键工具或通过 include-group 引用，
+    # 避免出现"空分组"的回归
+    for group_name in REQUIRED_DEV_GROUPS:
+        members = dep_groups.get(group_name, [])
+        assert members, f"[dependency-groups].{group_name} 不应为空"
 
 # ---------------------------------------------------------------------------
 # T-NO-UV-DEV-CONFLICT：pyproject.toml 不得定义 [tool.uv].dev-dependencies
-# （否则会与 [project.optional-dependencies].dev 冲突，Evaluator 第一轮审查 P0）
+# （PEP 735 [dependency-groups] 已经是 uv 的官方推荐写法，
+#   再叠加 [tool.uv].dev-dependencies 会造成两套源歧义）
 # ---------------------------------------------------------------------------
 def test_no_tool_uv_dev_dependencies(pyproject_data: dict) -> None:
     tool_uv = pyproject_data.get("tool", {}).get("uv", {})
     assert "dev-dependencies" not in tool_uv, (
         "pyproject.toml 禁止同时声明 [tool.uv].dev-dependencies 与 "
-        "[project.optional-dependencies].dev，二者只能存其一"
+        "[dependency-groups].dev，二者只能存其一（推荐 PEP 735）"
     )
-
 
 # ---------------------------------------------------------------------------
 # T-SETUP-THIN-SHIM：setup.py 必须是 thin shim（< 15 行），
@@ -134,7 +155,6 @@ def test_setup_py_is_thin_shim() -> None:
         "from setuptools import setup" in content
     ), "setup.py 必须 from setuptools import setup"
     assert "setup()" in content, "setup.py 必须调用 setup()"
-
 
 # ---------------------------------------------------------------------------
 # T-NO-UPLOAD-COMMAND：setup.py 不得定义 UploadCommand 或通过 os.system 递归调用自身
@@ -160,7 +180,6 @@ def _strip_comments_and_strings(src: str) -> str:
     src = re.sub(r"'[^'\n]*'", "''", src)
     return src
 
-
 def test_setup_py_has_no_upload_command() -> None:
     content = SETUP_PY.read_text(encoding="utf-8")
     code_only = _strip_comments_and_strings(content)
@@ -176,7 +195,6 @@ def test_setup_py_has_no_upload_command() -> None:
     assert not re.search(
         r"os\.system\(.*setup\.py.*\)", code_only
     ), "setup.py 实际代码中禁止通过 os.system 调用自身（会导致无限递归）"
-
 
 # ---------------------------------------------------------------------------
 # T-MANIFEST：MANIFEST.in 必须包含关键条目且无 changelog.md 小写拼写错误
@@ -200,7 +218,6 @@ def test_manifest_in_covers_required_entries() -> None:
         "在大小写敏感文件系统上会导致 sdist 缺失 CHANGELOG"
     )
 
-
 # ---------------------------------------------------------------------------
 # T-MAKEFILE-TARGETS：Makefile 必须包含 uv-install / uv-lock / publish 三个新目标
 # ---------------------------------------------------------------------------
@@ -218,7 +235,6 @@ def test_makefile_has_new_targets() -> None:
     assert "clean" in publish_deps, "publish 目标必须先依赖 clean"
     assert "build" in publish_deps, "publish 目标必须先依赖 build"
 
-
 # ---------------------------------------------------------------------------
 # T-CI-USES-UV：CI workflow 不得再调用老派 `python setup.py install`，应改用 uv
 # ---------------------------------------------------------------------------
@@ -232,7 +248,6 @@ def test_ci_workflow_uses_uv_not_setup_py_install() -> None:
     assert (
         "python -m build" in content
     ), "CI workflow 必须通过 `python -m build` 构建（PEP 517 标准流程）"
-
 
 # ---------------------------------------------------------------------------
 # T-DYNAMIC-VERSION：pyproject.toml 通过 tool.setuptools.dynamic 读取 _version.py

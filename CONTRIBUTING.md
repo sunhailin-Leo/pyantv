@@ -192,6 +192,8 @@ pytest test/test_visual_regression.py   # pixel 路径
 pytest test/test_visual_ssim.py         # SSIM 路径
 ```
 
+完整的视觉测试方法（基线生成、容差调整、CI 集成）请参阅 [docs/visual-testing.md](docs/visual-testing.md)。
+
 ## Release Process
 
 ### 发布流程

@@ -61,7 +61,9 @@
 
 ### 📊 图表画廊
 
-![Gallery Preview](docs/assets/gallery_preview.png)
+<!-- Gallery preview 由 scripts/gen_gallery_preview.py 生成 -->
+<!-- 本地构建：python scripts/gen_gallery_preview.py --manifest scripts/gallery_preview_manifest.yaml --output docs/assets/gallery_preview.png -->
+[Gallery Preview](docs/assets/gallery_preview.png)
 
 ## 🔰 安装
 
