@@ -1,3 +1,5 @@
+"""GeoPath 地理路径图基础功能测试。"""
+
 import unittest
 
 from pyantv import options as opts

@@ -1,4 +1,34 @@
-include pyantv/datasets/*.json
-include pyantv/render/templates/*
+# ============================================================================
+# Source distribution (sdist) 清单 — Sprint 62
+# pyproject.toml 已是 Single Source of Truth；本文件用于补充 sdist 需要打包
+# 但不属于 Python package 的额外文件。
+# ============================================================================
+
+# 核心元数据与文档
 include README.md
-include changelog.md
+include README.en.md
+include README.jp.md
+include CHANGELOG.md
+include LICENSE
+include pyproject.toml
+
+# 类型存根（Sprint 65 会生成更多 .pyi；用 recursive-include 自动覆盖）
+recursive-include pyantv *.pyi
+
+# 数据与模板文件（由 include-package-data + tool.setuptools 自动打包，这里再显式声明一次）
+recursive-include pyantv/datasets *.json
+recursive-include pyantv/render/templates *
+
+# uv 可重现构建的 lock 文件（首次 `make uv-lock` 生成后需 git 入库）
+# 使用 include 而不是 graft：若 uv.lock 尚未生成，setuptools 只会给一个 warning，不影响 sdist 构建
+include uv.lock
+
+# 排除构建产物 / 缓存 / IDE 配置
+global-exclude __pycache__
+global-exclude *.py[cod]
+global-exclude .DS_Store
+prune build
+prune dist
+prune .venv
+prune test/screenshots
+prune test/diffs

@@ -2,40 +2,108 @@ name: pyantv CI
 
 on: [push, pull_request]
 
+# CI 策略（Sprint 62 / 迁移 PEP 735 后）：
+# - uv 视为必装依赖，不提供 pip fallback job（本地开发者可继续使用 pip）
+# - 开发/测试/文档依赖通过 PEP 735 [dependency-groups] 管理，统一用 `uv sync --group <name>` 安装
+# - 用户向运行时可选依赖仍走 [project.optional-dependencies]，用 `--extra all` 安装
+# - 构建通过 `python -m build`（PEP 517），产物在隔离环境中验证
+
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v5
+    - name: Set up Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: "3.12"
+    - name: Install uv and sync dev group
+      run: |
+        python -m pip install --upgrade pip
+        pip install uv
+        uv sync --group dev --extra all
+    - name: Run lint
+      run: uv run make lint
+
+  docs:
+    # 文档构建校验（Sprint 73+）：strict 模式下任何死链、未引用文件、Markdown 解析告警
+    # 都会让 CI 失败，从而避免文档与实际代码不一致的问题再次出现。
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v5
+    - name: Set up Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: "3.12"
+    - name: Install uv and sync docs group
+      run: |
+        python -m pip install --upgrade pip
+        pip install uv
+        uv sync --group docs
+    - name: Build MkDocs site (strict)
+      run: uv run mkdocs build --strict --site-dir site
+
   build:
+    needs: lint
     strategy:
-      # Allows for matrix sub-jobs to fail without canceling the rest
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12", "3.13"]
-        exclude: # Python < v3.8 does not support Apple Silicon ARM64.
-          - python-version: "3.7"
-            os: macos-latest
-          - python-version: "3.7"
-            os: ubuntu-latest
-        include: # So run those legacy versions on Intel CPUs.
-          - python-version: "3.7"
-            os: macos-13
-          - python-version: "3.7"
-            os: ubuntu-22.04
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v6
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
+    - name: Install uv and sync dev + test groups + all extra
       run: |
-        python -m pip install --upgrade pip setuptools
-        pip install -r requirements.txt
-        pip install -r test/requirements.txt
-    - name: Run unit test
+        python -m pip install --upgrade pip
+        pip install uv
+        uv sync --group dev --group test --extra all
+    # ----------------------------------------------------------------------
+    # Playwright 浏览器二进制处理
+    # ----------------------------------------------------------------------
+    # Playwright 的 Python 包不会自带浏览器二进制（约 170MB），必须执行
+    # `playwright install chromium`，否则真实拉起浏览器的测试会以
+    # "Executable doesn't exist at .../chrome-headless-shell" 失败。
+    #
+    # 为避免每次 CI 都重复下载（5 OS × 5 Python = 15 个 job），用
+    # actions/cache 缓存浏览器目录。cache key 绑定 OS + 实际安装的
+    # Playwright 版本号，依赖升级时自动失效重建。
+    #
+    # 注意：Linux 上的 `--with-deps` 会通过 apt 安装系统库（libnss3 等），
+    # 这部分**不能被缓存**且每次都需要 root 权限执行，因此 Linux 即便
+    # 浏览器命中缓存也仍要跑一次 install（命中时只补系统依赖，不重新下载）。
+    - name: Resolve Playwright version
+      shell: bash
       run: |
-        python setup.py install
-        python test.py
-    - name: Codecov
-      run: |
-        codecov
+        PW_VERSION=$(uv run python -c "import importlib.metadata as m; print(m.version('playwright'))")
+        echo "PLAYWRIGHT_VERSION=${PW_VERSION}" >> "$GITHUB_ENV"
+        echo "Detected Playwright version: ${PW_VERSION}"
+    - name: Cache Playwright browsers
+      id: playwright-cache
+      uses: actions/cache@v5
+      with:
+        # 三平台默认下载目录，未存在的路径 actions/cache 会自动忽略
+        path: |
+          ~/.cache/ms-playwright
+          ~/Library/Caches/ms-playwright
+          ~\AppData\Local\ms-playwright
+        key: playwright-${{ runner.os }}-${{ env.PLAYWRIGHT_VERSION }}-chromium
+    - name: Install Playwright browsers (Linux, always run for system deps)
+      if: runner.os == 'Linux'
+      run: uv run playwright install --with-deps chromium
+    - name: Install Playwright browsers (macOS / Windows, skip on cache hit)
+      if: runner.os != 'Linux' && steps.playwright-cache.outputs.cache-hit != 'true'
+      run: uv run playwright install chromium
+    - name: Build sdist + wheel (PEP 517)
+      run: uv run python -m build
+    - name: Run unit tests with coverage
+      run: uv run pytest -v --cov-config=.coveragerc --cov=./ --cov-fail-under=95 test/
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}

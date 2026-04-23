@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyantv</title>
+                <script type="text/javascript" src="https://unpkg.com/@antv/g2/dist/g2.min.js"></script>
+
+    
+</head>
+<body >
+    <div id="9b0f783a97004ae595792d6a3b9613a0" class="chart-container" style="width:900px; height:500px; "></div>
+    <script>
+        const antv_chart_9b0f783a97004ae595792d6a3b9613a0 = new G2.Chart({"container": "9b0f783a97004ae595792d6a3b9613a0"});
+        antv_chart_9b0f783a97004ae595792d6a3b9613a0.options({
+    "type": "spaceFlex",
+    "data": {
+        "type": "fetch",
+        "value": "https://assets.antv.antgroup.com/g2/seattle-weather.json"
+    },
+    "children": [
+        {
+            "type": "interval",
+            "encode": {
+                "x": (d) => new Date(d.date).getUTCDate(),
+                "y": "temp_max",
+                "color": "steelblue"
+            },
+            "transform": [
+                {
+                    "type": "groupX",
+                    "y": "max"
+                }
+            ],
+            "axis": {
+                "x": false
+            },
+            "paddingRight": 300,
+            "paddingBottom": 0
+        },
+        {
+            "type": "spaceFlex",
+            "paddingBottom": 60,
+            "ratio": [
+                2,
+                1
+            ],
+            "children": [
+                {
+                    "type": "cell",
+                    "transform": [
+                        {
+                            "type": "group",
+                            "color": "max"
+                        }
+                    ],
+                    "style": {
+                        "inset": 0.5
+                    },
+                    "axis": {
+                        "x": {
+                            "title": "Date"
+                        },
+                        "y": {
+                            "title": "Month"
+                        }
+                    },
+                    "legend": {
+                        "color": false
+                    },
+                    "paddingRight": 0,
+                    "paddingBottom": 60,
+                    "encode": {
+                        "x": (d) => new Date(d.date).getUTCDate(),
+                        "y": (d) => new Date(d.date).getUTCMonth(),
+                        "color": "temp_max"
+                    },
+                    "scale": {
+                        "color": {
+                            "palette": "gnBu"
+                        }
+                    }
+                },
+                {
+                    "type": "interval",
+                    "encode": {
+                        "x": (d) => new Date(d.date).getUTCMonth(),
+                        "y": "temp_max",
+                        "color": "steelblue"
+                    },
+                    "transform": [
+                        {
+                            "type": "groupX",
+                            "y": "max"
+                        }
+                    ],
+                    "coordinate": {
+                        "transform": [
+                            {
+                                "type": "transpose"
+                            }
+                        ]
+                    },
+                    "axis": {
+                        "x": false
+                    }
+                }
+            ]
+        }
+    ],
+    "width": 900,
+    "ratio": [
+        1,
+        2
+    ],
+    "direction": "col"
+});
+        antv_chart_9b0f783a97004ae595792d6a3b9613a0.render();
+    </script>
+</body>
+</html>

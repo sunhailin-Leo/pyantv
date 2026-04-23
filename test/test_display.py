@@ -1,3 +1,5 @@
+"""图表渲染与展示功能测试。"""
+
 import unittest
 
 from pyantv.render.display import HTML, Javascript
@@ -31,8 +33,6 @@ class TestDisplay(unittest.TestCase):
         self.assertIn(js_content, obj_1._repr_javascript_())
 
     def test_display_javascript_v2(self):
-        import ssl
-
         # ssl._create_default_https_context = ssl._create_unverified_context
 
         obj = Javascript(lib=["https://unpkg.com/@antv/g2@5.2.11/dist/g2.min.js"])

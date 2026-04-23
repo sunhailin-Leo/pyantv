@@ -1,10 +1,18 @@
+"""Liquid 水波图基础功能测试。"""
+
 import unittest
 
-from pyantv import options as opts
+import pyantv.options as opts
+
 from pyantv.charts import Liquid
 from pyantv.globals import ChartType
 
 from test import chart_base_test
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+)
 
 
 class TestLiquidChart(unittest.TestCase):
@@ -26,3 +34,23 @@ class TestLiquidChart(unittest.TestCase):
         )
 
         return c
+
+    def test_liquid_options_validation(self):
+        """验证 Liquid 图表的 JSON 配置结构正确性。"""
+        liquid = Liquid().set_data(data=0.3)
+        options = liquid.options
+        assert_chart_type(options, "liquid")
+        assert_options_contains(
+            options,
+            {
+                "type": "liquid",
+                "data": 0.3,
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+            ],
+        )

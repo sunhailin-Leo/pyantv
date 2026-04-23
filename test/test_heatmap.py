@@ -1,3 +1,5 @@
+"""Heatmap 热力图基础功能测试。"""
+
 import unittest
 
 from pyantv import options as opts
@@ -5,6 +7,12 @@ from pyantv.charts import View, HeatMap, Image
 from pyantv.globals import ChartType
 
 from test import chart_base_test
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+    assert_encode_fields,
+)
 
 
 class TestHeatMapChart(unittest.TestCase):
@@ -62,6 +70,45 @@ class TestHeatMapChart(unittest.TestCase):
         )
 
         return view
+
+    def test_heatmap_options_validation(self):
+        """验证 HeatMap 图表的 JSON 配置结构正确性。"""
+        TEST_HEATMAP_DATA = [
+            {"g": "A", "l": "1", "tmp": 10},
+            {"g": "A", "l": "2", "tmp": 20},
+            {"g": "B", "l": "1", "tmp": 30},
+            {"g": "B", "l": "2", "tmp": 40},
+        ]
+        heatmap = (
+            HeatMap()
+            .set_data(data=TEST_HEATMAP_DATA)
+            .set_encode(
+                x_field_name="g",
+                y_field_name="l",
+                color_field="tmp",
+            )
+        )
+        options = heatmap.options
+        assert_chart_type(options, "heatmap")
+        assert_encode_fields(options, x="g", y="l", color="tmp")
+        assert_options_contains(
+            options,
+            {
+                "type": "heatmap",
+                "encode": {"x": "g", "y": "l", "color": "tmp"},
+                "data": TEST_HEATMAP_DATA,
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "encode.x",
+                "encode.y",
+                "encode.color",
+            ],
+        )
 
     @chart_base_test(chart_type=ChartType.VIEW)
     def test_heatmap_style(self):

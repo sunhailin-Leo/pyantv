@@ -13,6 +13,46 @@ from typing import (
 from . import options as opts
 from .options.series_options import JsCode, JSFunc, Numeric
 
+__all__ = [
+    # typing exports
+    "Any",
+    "Callable",
+    "Iterable",
+    "List",
+    "Mapping",
+    "Optional",
+    "Sequence",
+    "Tuple",
+    "Union",
+    # series_options exports
+    "JsCode",
+    "JSFunc",
+    "Numeric",
+    # custom types
+    "NumericAndJsFunc",
+    # opts types
+    "Init",
+    "RenderInit",
+    "BaseChartStyle",
+    "BaseChartRadiusInsetStyle",
+    "Data",
+    "DataTransform",
+    "Scale",
+    "Transform",
+    "Coordinate",
+    "Animate",
+    "Title",
+    "Axis",
+    "State",
+    "ScrollBar",
+    "Slider",
+    "Legend",
+    "Tooltip",
+    "Label",
+    "Interaction",
+    "Annotation",
+]
+
 # custom types
 NumericAndJsFunc = Optional[Union[Numeric, JSFunc]]
 
@@ -82,8 +122,11 @@ Transform = Union[
     opts.TransformSortXOpts,
     opts.TransformSortYOpts,
     opts.TransformStackEnterOpts,
+    opts.TransformStackXOpts,
     opts.TransformStackYOpts,
     opts.TransformSymmetryYOpts,
+    opts.TransformNormalizeXOpts,
+    opts.TransformBinYOpts,
     dict,
 ]
 
@@ -95,6 +138,7 @@ Coordinate = Union[
     opts.CoordinateThetaOpts,
     opts.CoordinateTransposeOpts,
     opts.CoordinateCartesian3DOpts,
+    opts.CoordinateHelixOpts,
     dict,
 ]
 
@@ -108,3 +152,9 @@ Legend = Union[opts.LegendCategoryOpts, opts.LegendContinuousOpts, dict, bool]
 Tooltip = Union[opts.TooltipOpts, dict, bool]
 Label = Union[Sequence[opts.LabelOpts], opts.LabelOpts, dict, bool]
 Interaction = Union[opts.InteractionOpts, dict, bool]
+Annotation = Union[
+    opts.LineAnnotationOpts,
+    opts.RegionAnnotationOpts,
+    opts.TextAnnotationOpts,
+    dict,
+]

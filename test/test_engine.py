@@ -1,10 +1,12 @@
+"""渲染引擎核心逻辑测试。"""
+
 import os
 import unittest
 
 from pyantv.charts import Interval
 from pyantv.render.engine import RenderEngine, write_utf8_html_file
 from pyantv.datasets import EXTRA, FILENAMES
-from pyantv.globals import CurrentConfig, ChartType
+from pyantv.globals import CurrentConfig
 
 
 class TestEngine(unittest.TestCase):

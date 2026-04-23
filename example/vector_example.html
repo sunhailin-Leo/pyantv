@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyantv</title>
+                <script type="text/javascript" src="https://unpkg.com/@antv/g2/dist/g2.min.js"></script>
+
+    
+</head>
+<body >
+    <div id="f570436fa2034b0695853ffa4b8bd019" class="chart-container" style="width:900px; height:500px; "></div>
+    <script>
+        const antv_chart_f570436fa2034b0695853ffa4b8bd019 = new G2.Chart({"container": "f570436fa2034b0695853ffa4b8bd019"});
+        antv_chart_f570436fa2034b0695853ffa4b8bd019.options({
+    "type": "vector",
+            autoFit: true,
+    "data": {
+        "type": "fetch",
+        "value": "https://gw.alipayobjects.com/os/antfincdn/F5VcgnqRku/wind.json"
+    },
+    "encode": {
+        "x": "longitude",
+        "y": "latitude",
+        "color": ({ u, v }) => Math.hypot(v, u),
+        "size": ({ u, v }) => Math.hypot(v, u),
+        "rotate": ({ u, v }) => (Math.atan2(v, u) * 180) / Math.PI
+    },
+    "scale": {
+        "color": {
+            "palette": "viridis"
+        },
+        "size": {
+            "range": [
+                6,
+                20
+            ]
+        }
+    },
+    "axis": {
+        "x": {
+            "grid": false
+        },
+        "y": {
+            "grid": false
+        }
+    },
+    "legend": false,
+    "tooltip": {
+        "title": {
+            "channel": "color",
+            "valueFormatter": ".1f"
+        }
+    }
+});
+        antv_chart_f570436fa2034b0695853ffa4b8bd019.render();
+    </script>
+</body>
+</html>

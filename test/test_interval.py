@@ -1,3 +1,5 @@
+"""Interval 柱状图基础功能测试。"""
+
 import unittest
 
 from pyantv import options as opts
@@ -5,6 +7,12 @@ from pyantv.charts import Interval, Text, View
 from pyantv.globals import ChartType
 
 from test import chart_base_test
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+    assert_encode_fields,
+)
 
 TEST_INTERVAL_DATA = [
     {"letter": "A", "frequency": 0.08167},
@@ -131,3 +139,67 @@ class TestIntervalChart(unittest.TestCase):
         )
 
         return c
+
+    def test_interval_options_validation(self):
+        """验证 Interval 图表的 JSON 配置结构正确性。"""
+        interval = (
+            Interval()
+            .set_data(data=TEST_INTERVAL_DATA)
+            .set_encode(
+                x_field_name="letter",
+                y_field_name="frequency",
+            )
+        )
+
+        options = interval.options
+
+        assert_chart_type(options, "interval")
+        assert_encode_fields(options, x="letter", y="frequency")
+        assert_options_contains(
+            options,
+            {
+                "type": "interval",
+                "encode": {"x": "letter", "y": "frequency"},
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "encode.x",
+                "encode.y",
+            ],
+        )
+
+    def test_interval_with_style_options_validation(self):
+        """验证 Interval 图表带 style 配置的 JSON 结构正确性。"""
+        interval = (
+            Interval()
+            .set_data(data=TEST_INTERVAL_DATA)
+            .set_encode(
+                x_field_name="letter",
+                y_field_name="frequency",
+                shape_field="pyramid",
+            )
+            .set_interval_style(min_width=2)
+            .set_global_options(
+                style_opts=opts.BaseChartStyleOpts(opacity=0.5),
+            )
+        )
+
+        options = interval.options
+
+        assert_chart_type(options, "interval")
+        assert_encode_fields(options, x="letter", y="frequency", shape="pyramid")
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "encode.x",
+                "encode.y",
+                "encode.shape",
+                "style",
+            ],
+        )

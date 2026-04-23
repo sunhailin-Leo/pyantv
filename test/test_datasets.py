@@ -1,3 +1,5 @@
+"""内置数据集加载和使用测试。"""
+
 import os
 import unittest
 from unittest.mock import patch

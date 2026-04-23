@@ -1,3 +1,5 @@
+"""Chord 弦图基础功能测试。"""
+
 import unittest
 
 from pyantv import options as opts
@@ -5,6 +7,11 @@ from pyantv.charts import Chord
 from pyantv.globals import ChartType
 
 from test import chart_base_test
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+)
 
 
 TEST_CHORD_DATA = [
@@ -148,3 +155,23 @@ class TestChordChart(unittest.TestCase):
         )
 
         return c
+
+    def test_chord_options_validation(self):
+        """验证 Chord 图表的 JSON 配置结构正确性。"""
+        chord = Chord().set_data(data={"value": {"links": TEST_CHORD_DATA}})
+        options = chord.options
+        assert_chart_type(options, "chord")
+        assert_options_contains(
+            options,
+            {
+                "type": "chord",
+                "data": {"value": {"links": TEST_CHORD_DATA}},
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+            ],
+        )

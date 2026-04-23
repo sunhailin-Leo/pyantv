@@ -1,0 +1,35 @@
+{
+  "data": [
+    {
+      "category": "A",
+      "type": "X",
+      "value": 30
+    },
+    {
+      "category": "A",
+      "type": "Y",
+      "value": 20
+    },
+    {
+      "category": "B",
+      "type": "X",
+      "value": 50
+    },
+    {
+      "category": "B",
+      "type": "Y",
+      "value": 40
+    }
+  ],
+  "encode": {
+    "color": "type",
+    "x": "category",
+    "y": "value"
+  },
+  "transform": [
+    {
+      "type": "stackY"
+    }
+  ],
+  "type": "interval"
+}

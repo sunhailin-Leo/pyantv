@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyantv</title>
+                <script type="text/javascript" src="https://unpkg.com/@antv/g2/dist/g2.min.js"></script>
+
+    
+</head>
+<body >
+    <div id="d75e2b326dd14a19954b1c669ee94a03" class="chart-container" style="width:900px; height:500px; "></div>
+    <script>
+        const antv_chart_d75e2b326dd14a19954b1c669ee94a03 = new G2.Chart({"container": "d75e2b326dd14a19954b1c669ee94a03"});
+        antv_chart_d75e2b326dd14a19954b1c669ee94a03.options({
+    "type": "view",
+    "data": {
+        "type": "fetch",
+        "value": "https://assets.antv.antgroup.com/g2/movies.json",
+        "transform": [
+            {
+                "type": "filter",
+                "callback": (d) => d['IMDB Rating'] > 0
+            }
+        ]
+    },
+    "paddingLeft": 50,
+    "children": [
+        {
+            "type": "rect",
+            "encode": {
+                "x": "IMDB Rating"
+            },
+            "scale": {
+                "y": {
+                    "type": "linear",
+                    "domainMax": 1000
+                }
+            },
+            "transform": [
+                {
+                    "type": "binX",
+                    "thresholds": 9,
+                    "y": "count"
+                }
+            ],
+            "style": {
+                "inset": 1
+            }
+        },
+        {
+            "type": "lineX",
+            "encode": {
+                "x": "IMDB Rating"
+            },
+            "transform": [
+                {
+                    "type": "groupColor",
+                    "y": "mean"
+                }
+            ],
+            "style": {
+                "stroke": "#F4664A",
+                "strokeOpacity": 1,
+                "lineWidth": 5
+            }
+        }
+    ]
+});
+        antv_chart_d75e2b326dd14a19954b1c669ee94a03.render();
+    </script>
+</body>
+</html>

@@ -1,10 +1,17 @@
+"""FacetCircle 圆形分面图测试。"""
+
 import unittest
 
-from pyantv import options as opts
 from pyantv.charts import FacetCircle, Interval
 from pyantv.globals import ChartType
 
 from test import chart_base_test
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+    ANY,
+)
 
 
 TEST_FACET_CIRCLE_DATA = [
@@ -77,3 +84,40 @@ class TestFacetCircleChart(unittest.TestCase):
         )
 
         return c
+
+    def test_facet_circle_options_validation(self):
+        """验证 FacetCircle 图表的 JSON 配置结构正确性。"""
+        chart = (
+            FacetCircle()
+            .set_data(data=TEST_FACET_CIRCLE_DATA)
+            .set_facet_circle_encode(position="month")
+            .set_facet_circle_children(
+                children=[
+                    Interval()
+                    .set_encode(
+                        x_field_name="name",
+                        y_field_name="value",
+                    )
+                    .get_options()
+                ]
+            )
+        )
+
+        options = chart.options
+        assert_chart_type(options, "facetCircle")
+        assert_options_contains(
+            options,
+            {
+                "type": "facetCircle",
+                "data": TEST_FACET_CIRCLE_DATA,
+                "children": ANY,
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "children",
+            ],
+        )

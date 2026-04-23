@@ -864,6 +864,72 @@ class TransformSymmetryYOpts(BasicOpts):
         }
 
 
+class TransformStackXOpts(BasicOpts):
+    def __init__(
+        self,
+        group_by: Optional[Union[str, Sequence[str]]] = None,
+        order_by: Optional[str] = None,
+        x_: Optional[str] = None,
+        x1_: Optional[str] = None,
+        is_reverse: Optional[bool] = None,
+        is_series: Optional[bool] = None,
+    ):
+        self.opts: dict = {
+            "type": "stackX",
+            "groupBy": group_by,
+            "orderBy": order_by,
+            "x": x_,
+            "x1": x1_,
+            "reverse": is_reverse,
+            "series": is_series,
+        }
+
+
+class TransformNormalizeXOpts(BasicOpts):
+    def __init__(
+        self,
+        group_by: Optional[Union[str, Sequence[str]]] = None,
+        basis: Optional[str] = None,
+    ):
+        self.opts: dict = {
+            "type": "normalizeX",
+            "groupBy": group_by,
+            "basis": basis,
+        }
+
+
+class TransformBinYOpts(BasicOpts):
+    def __init__(
+        self,
+        thresholds: Optional[Numeric] = None,
+        channel_name: Optional[str] = None,
+        channel_transform: Optional[JSFunc] = None,
+    ):
+        self.opts: dict = {
+            "type": "binY",
+            "thresholds": thresholds,
+        }
+        if channel_name:
+            self.opts[channel_name] = channel_transform
+
+
+class CoordinateHelixOpts(BasicOpts):
+    def __init__(
+        self,
+        start_angle: Optional[Numeric] = None,
+        end_angle: Optional[Numeric] = None,
+        inner_radius: Optional[Numeric] = None,
+        outer_radius: Optional[Numeric] = None,
+    ):
+        self.opts: dict = {
+            "type": "helix",
+            "startAngle": start_angle,
+            "endAngle": end_angle,
+            "innerRadius": inner_radius,
+            "outerRadius": outer_radius,
+        }
+
+
 class CoordinateFishEyeOpts(BasicOpts):
     def __init__(
         self,
@@ -2599,3 +2665,95 @@ class InteractionOpts(BasicOpts):
             "poptip": poptip_opts,
             "tooltip": tooltip_opts,
         }
+
+
+class LineAnnotationOpts(BasicOpts):
+    """参考线标注配置。"""
+    def __init__(
+        self,
+        x: Optional[Union[Numeric, str]] = None,
+        y: Optional[Union[Numeric, str]] = None,
+        x_start: Optional[Union[Numeric, str]] = None,
+        x_end: Optional[Union[Numeric, str]] = None,
+        y_start: Optional[Union[Numeric, str]] = None,
+        y_end: Optional[Union[Numeric, str]] = None,
+        text: Optional[str] = None,
+        style: Optional[dict] = None,
+    ):
+        self.opts: dict = {"type": "lineY" if y is not None else "lineX"}
+        if x is not None:
+            self.opts["type"] = "lineX"
+            self.opts.update(data=[x])
+        if y is not None:
+            self.opts["type"] = "lineY"
+            self.opts.update(data=[y])
+        if text:
+            self.opts.update(labels=[{"text": text}])
+        if style:
+            self.opts.update(style=style)
+
+
+class RegionAnnotationOpts(BasicOpts):
+    """区域标注配置。"""
+    def __init__(
+        self,
+        x_start: Optional[Union[Numeric, str]] = None,
+        x_end: Optional[Union[Numeric, str]] = None,
+        y_start: Optional[Union[Numeric, str]] = None,
+        y_end: Optional[Union[Numeric, str]] = None,
+        fill: Optional[str] = None,
+        fill_opacity: Optional[float] = None,
+        style: Optional[dict] = None,
+    ):
+        self.opts: dict = {"type": "range"}
+        data_config = {}
+        if x_start is not None:
+            data_config["xStart"] = x_start
+        if x_end is not None:
+            data_config["xEnd"] = x_end
+        if y_start is not None:
+            data_config["yStart"] = y_start
+        if y_end is not None:
+            data_config["yEnd"] = y_end
+        if data_config:
+            self.opts.update(data=[data_config])
+        style_dict = {}
+        if fill:
+            style_dict["fill"] = fill
+        if fill_opacity is not None:
+            style_dict["fillOpacity"] = fill_opacity
+        if style:
+            style_dict.update(style)
+        if style_dict:
+            self.opts.update(style=style_dict)
+
+
+class TextAnnotationOpts(BasicOpts):
+    """文本标注配置。"""
+    def __init__(
+        self,
+        x: Optional[Union[Numeric, str]] = None,
+        y: Optional[Union[Numeric, str]] = None,
+        text: str = "",
+        font_size: Optional[Numeric] = None,
+        fill: Optional[str] = None,
+        style: Optional[dict] = None,
+    ):
+        self.opts: dict = {"type": "text"}
+        data_config = {}
+        if x is not None:
+            data_config["x"] = x
+        if y is not None:
+            data_config["y"] = y
+        if data_config:
+            self.opts.update(data=[data_config])
+        self.opts.update(encode={"text": text})
+        style_dict = {}
+        if font_size is not None:
+            style_dict["fontSize"] = font_size
+        if fill:
+            style_dict["fill"] = fill
+        if style:
+            style_dict.update(style)
+        if style_dict:
+            self.opts.update(style=style_dict)

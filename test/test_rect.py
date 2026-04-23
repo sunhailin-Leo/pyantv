@@ -1,3 +1,5 @@
+"""Rect 矩形图基础功能测试。"""
+
 import unittest
 
 from pyantv import options as opts
@@ -6,6 +8,12 @@ from pyantv.commons.utils import JsCode
 from pyantv.globals import ChartType
 
 from test import chart_base_test
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+    assert_encode_fields,
+)
 
 
 class TestRectChart(unittest.TestCase):
@@ -74,6 +82,41 @@ class TestRectChart(unittest.TestCase):
         )
 
         return c
+
+    def test_rect_options_validation(self):
+        """验证 Rect 图表的 JSON 配置结构正确性。"""
+        TEST_RECT_DATA = [
+            {"IMDB Rating": 7.5},
+            {"IMDB Rating": 8.0},
+            {"IMDB Rating": 6.5},
+            {"IMDB Rating": 9.0},
+        ]
+        rect = (
+            Rect()
+            .set_data(data=TEST_RECT_DATA)
+            .set_encode(
+                x_field_name="IMDB Rating",
+            )
+        )
+        options = rect.options
+        assert_chart_type(options, "rect")
+        assert_encode_fields(options, x="IMDB Rating")
+        assert_options_contains(
+            options,
+            {
+                "type": "rect",
+                "encode": {"x": "IMDB Rating"},
+                "data": TEST_RECT_DATA,
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "encode.x",
+            ],
+        )
 
     @chart_base_test(chart_type=ChartType.VIEW)
     def test_rect_style(self):

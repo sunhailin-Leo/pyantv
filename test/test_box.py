@@ -1,3 +1,5 @@
+"""Box 箱线图基础功能测试。"""
+
 import unittest
 
 from pyantv import options as opts
@@ -5,6 +7,12 @@ from pyantv.charts import Box
 from pyantv.globals import ChartType
 
 from test import chart_base_test
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+    assert_encode_fields,
+)
 
 TEST_BOX_DATA = [
     {"x": "Oceania", "y": [1, 9, 16, 22, 24]},
@@ -53,3 +61,36 @@ class TestBoxChart(unittest.TestCase):
         )
 
         return c
+
+    def test_box_options_validation(self):
+        """验证 Box 图表的 JSON 配置结构正确性。"""
+        box = (
+            Box()
+            .set_data(data=TEST_BOX_DATA)
+            .set_encode(
+                x_field_name="x",
+                y_field_name="y",
+                color_field="x",
+            )
+        )
+        options = box.options
+        assert_chart_type(options, "box")
+        assert_encode_fields(options, x="x", y="y", color="x")
+        assert_options_contains(
+            options,
+            {
+                "type": "box",
+                "encode": {"x": "x", "y": "y", "color": "x"},
+                "data": TEST_BOX_DATA,
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "encode.x",
+                "encode.y",
+                "encode.color",
+            ],
+        )

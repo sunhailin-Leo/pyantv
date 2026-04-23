@@ -1,0 +1,24 @@
+"""
+数据标签碰撞隐藏
+G2 文档: https://g2.antv.antgroup.com/examples/component/label/#label-collision-hide
+"""
+from pyantv import options as opts
+from pyantv.charts import Interval
+
+data = [
+    {"name": "A", "value": 30}, {"name": "B", "value": 55},
+    {"name": "C", "value": 45}, {"name": "D", "value": 70},
+    {"name": "E", "value": 35}, {"name": "F", "value": 60},
+    {"name": "G", "value": 50}, {"name": "H", "value": 40},
+]
+
+chart = (
+    Interval()
+    .set_data(data=data)
+    .set_encode(x_field_name="name", y_field_name="value")
+    .set_global_options(
+        title_opts=opts.TitleOpts(title="数据标签碰撞隐藏"),
+        label_opts=[opts.LabelOpts(text_opts="value")],
+    )
+)
+chart.render("label_collision_hide.html")

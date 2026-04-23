@@ -1,3 +1,5 @@
+"""Area 面积图基础功能测试。"""
+
 import sys
 import unittest
 from io import StringIO
@@ -10,6 +12,12 @@ from pyantv.commons.utils import JsCode
 from pyantv.render.display import HTML
 
 from test import chart_base_test
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+    assert_encode_fields,
+)
 
 TEST_AREA_DATA = [
     {"year": "1991", "value": 15468},
@@ -176,3 +184,38 @@ class TestAreaChart(unittest.TestCase):
 
         # Block Result
         self.assertIn("%html", stdout_redirect.fp.getvalue())
+
+    def test_area_options_validation(self):
+        """验证 Area 图表的 JSON 配置结构正确性。"""
+        area = (
+            Area()
+            .set_data(data=TEST_AREA_DATA)
+            .set_encode(
+                x_field_name="year",
+                y_field_name="value",
+                shape_field="area",
+            )
+        )
+
+        options = area.options
+
+        assert_chart_type(options, "area")
+        assert_encode_fields(options, x="year", y="value", shape="area")
+        assert_options_contains(
+            options,
+            {
+                "type": "area",
+                "encode": {"x": "year", "y": "value", "shape": "area"},
+                "data": TEST_AREA_DATA,
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "encode.x",
+                "encode.y",
+                "encode.shape",
+            ],
+        )

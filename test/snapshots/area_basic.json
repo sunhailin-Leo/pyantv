@@ -1,0 +1,21 @@
+{
+  "data": [
+    {
+      "value": 100,
+      "year": "2020"
+    },
+    {
+      "value": 200,
+      "year": "2021"
+    },
+    {
+      "value": 150,
+      "year": "2022"
+    }
+  ],
+  "encode": {
+    "x": "year",
+    "y": "value"
+  },
+  "type": "area"
+}

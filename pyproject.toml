@@ -1,0 +1,171 @@
+# ============================================================================
+# pyantv 现代化打包配置（Sprint 62 引入；Sprint 74 起：dev/test/docs 迁移到 PEP 735）
+#
+# 本文件是 pyantv 项目依赖与元数据的 Single Source of Truth。
+# - build-backend 采用官方推荐的 setuptools.build_meta（PEP 517/518/660 兼容）
+# - 用户向运行时可选依赖（pandas / numpy / export / streamlit / notebook /
+#   offline / all）保留在 [project.optional-dependencies]，可通过
+#   `pip install pyantv[xxx]` 安装。
+# - 开发向依赖（dev / test / docs）放在 PEP 735 [dependency-groups]，
+#   通过 `uv sync --group <name>` 或 `pip install --group <name>`（pip>=25.1）
+#   安装；不会进入 wheel，也不会污染包元数据。
+# - requires-python = ">=3.9"（Python 3.8 已于 2024-10 EOL，且大量上游
+#   开发依赖如 black>=25.1 已不再支持 3.8）
+# ============================================================================
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel", "setuptools-scm>=8.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyantv"
+dynamic = ["version"]
+description = "Python visualization SDK for AntV"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+authors = [
+    {name = "sunhailin-Leo", email = "shjkfld379978424@gmail.com"},
+]
+keywords = ["AntV", "charts", "plotting-tool", "visualization"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Framework :: Jupyter",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Scientific/Engineering :: Visualization",
+]
+dependencies = [
+    "jinja2>=2.11.3",
+    "simplejson>=3.0",
+    "typing_extensions>=4.0; python_version < '3.11'",
+]
+
+[project.optional-dependencies]
+# ---- 用户向分组（pip install pyantv[xxx]） ----
+# 这里只放运行时可选依赖。开发/测试/文档相关依赖请见下方 [dependency-groups]。
+pandas = ["pandas>=1.0.0"]
+numpy = ["numpy>=1.20.0"]
+export = ["playwright>=1.40.0"]
+streamlit = ["streamlit>=1.0.0"]
+notebook = ["ipywidgets>=7.0", "ipython>=7.0"]
+offline = ["requests>=2.25.0"]
+# ---- 聚合分组：只包含"用户向"分组，不含 dev/test/docs（避免带入 500MB+ 开发依赖）----
+all = [
+    "pandas>=1.0.0",
+    "numpy>=1.20.0",
+    "playwright>=1.40.0",
+    "streamlit>=1.0.0",
+    "ipywidgets>=7.0",
+    "ipython>=7.0",
+    "requests>=2.25.0",
+]
+
+# ---------------------------------------------------------------------------
+# PEP 735 dependency groups（开发向，仅本地/CI 使用，不会进入 wheel）
+# ---------------------------------------------------------------------------
+# 安装方式：
+#   uv sync --group dev                   # 仅 lint/格式化/构建工具
+#   uv sync --group test                  # 仅运行单元测试
+#   uv sync --group docs                  # 仅构建 MkDocs 文档
+#   uv sync --group dev --group test --extra all   # 完整 CI 矩阵
+# 兼容性：uv >= 0.5.0、pip >= 25.1 均原生支持 [dependency-groups]。
+[dependency-groups]
+dev = [
+    "black>=25.0.0",
+    "isort>=5.13.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "build>=0.10.0",
+    "twine>=4.0.0",
+]
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "playwright>=1.40.0",
+    "pillow>=9.0.0",
+    "pytest-benchmark>=4.0.0",
+    "hypothesis>=6.0.0",
+    "scikit-image>=0.19.0",
+    "pyyaml>=6.0",
+]
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/sunhailin-Leo/pyantv"
+Repository = "https://github.com/sunhailin-Leo/pyantv"
+Issues = "https://github.com/sunhailin-Leo/pyantv/issues"
+Documentation = "https://github.com/sunhailin-Leo/pyantv#readme"
+
+# ---------------------------------------------------------------------------
+# setuptools 动态配置
+# ---------------------------------------------------------------------------
+[tool.setuptools]
+include-package-data = true
+zip-safe = false
+
+[tool.setuptools.packages.find]
+exclude = ["test*", "benchmarks*", "examples*", "scripts*"]
+
+[tool.setuptools.dynamic]
+# version 由 setuptools-scm 管理（见 [tool.setuptools-scm]），此处不再使用 attr 方式
+
+# ---------------------------------------------------------------------------
+# setuptools-scm 版本管理（Sprint 72）
+# ---------------------------------------------------------------------------
+[tool.setuptools-scm]
+write_to = "pyantv/_version.py"
+fallback_version = "0.1.0"
+
+# ---------------------------------------------------------------------------
+# 代码质量工具
+# ---------------------------------------------------------------------------
+[tool.black]
+line-length = 89
+
+[tool.isort]
+profile = "black"
+line_length = 89
+
+[tool.mypy]
+python_version = "3.9"
+ignore_missing_imports = true
+exclude = [
+    "^test/",
+    "^benchmarks/",
+    "^examples?/",
+    "^scripts/",
+    "^build/",
+    "^dist/",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["test"]
+python_files = "test_*.py"
+
+[tool.coverage.run]
+omit = [
+    "pyantv/render/templates/*",
+    "setup.py",
+    "install.py",
+    "test.py",
+    "test/*",
+    "benchmarks/*",
+]
+
+[tool.coverage.report]
+show_missing = true
+precision = 2

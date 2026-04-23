@@ -1,14 +1,23 @@
-<!--
+## Summary
 
-### 提 PR 注意事项
-0. 同步到 dev 分支的最新版本
-1. 代码尽量保持与项目统一风格，尽量按照 PEP8 规范写代码，必要时附上注释
-2. 如需要时请添加单元测试，也请确保所有测试能够通过
-3. 将 PR 推送至远程的 dev 分支，master 分支只负责发布新版本。请在提交信息中描述关于该 PR 的详细信息，需要时加上截图。
-4. 若是对文档进行修改，请确保数字，字母与中文之间两边均有一空格，如你所看到的所有文档一样
+Brief description of what this PR does.
 
--->
+## Type of change
 
-本次 PR 内容，
+- [ ] Bug fix (non-breaking change which fixes an issue)
+- [ ] New feature (non-breaking change which adds functionality)
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] Documentation update
+
+## Checklist
+
+- [ ] My code follows the style guidelines of this project
+- [ ] I have performed a self-review of my own code
+- [ ] I have commented my code, particularly in hard-to-understand areas
+- [ ] I have made corresponding changes to the documentation
+- [ ] My changes generate no new warnings
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+- [ ] Any dependent changes have been merged and published in downstream modules
 
 

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyantv</title>
+                <script type="text/javascript" src="https://unpkg.com/@antv/g2/dist/g2.min.js"></script>
+
+    
+</head>
+<body >
+    <div id="1e23ed2253f944d686f6e7750de7b9c7" class="chart-container" style="width:900px; height:500px; "></div>
+    <script>
+        const antv_chart_1e23ed2253f944d686f6e7750de7b9c7 = new G2.Chart({"container": "1e23ed2253f944d686f6e7750de7b9c7", "autoFit": true});
+        antv_chart_1e23ed2253f944d686f6e7750de7b9c7.options({
+    "type": "forceGraph",
+    "data": {
+        "type": "fetch",
+        "value": "https://assets.antv.antgroup.com/g2/miserable.json"
+    },
+    "scale": {
+        "color": {
+            "range": [
+                "#4e79a7",
+                "#f28e2c",
+                "#e15759",
+                "#76b7b2",
+                "#59a14f",
+                "#edc949",
+                "#af7aa1",
+                "#ff9da7",
+                "#9c755f",
+                "#bab0ab"
+            ]
+        }
+    }
+});
+        antv_chart_1e23ed2253f944d686f6e7750de7b9c7.render();
+    </script>
+</body>
+</html>

@@ -1,3 +1,5 @@
+"""Range 区间图基础功能测试。"""
+
 import unittest
 
 from pyantv import options as opts
@@ -15,6 +17,12 @@ from pyantv.commons.utils import JsCode
 from pyantv.globals import ChartType
 
 from test import chart_base_test
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+    assert_encode_fields,
+)
 
 
 class TestRangeChart(unittest.TestCase):
@@ -225,3 +233,92 @@ class TestRangeChart(unittest.TestCase):
         )
 
         return c
+
+    def test_range_options_validation(self):
+        """验证 Range 图表的 JSON 配置结构正确性。"""
+        TEST_DATA = [
+            {"x": [-25, 0], "y": [-30, 0], "region": "1"},
+            {"x": [-25, 0], "y": [0, 20], "region": "2"},
+        ]
+        chart = (
+            Range()
+            .set_data(data=TEST_DATA)
+            .set_encode(
+                x_field_name="x",
+                y_field_name="y",
+                color_field="region",
+            )
+        )
+        options = chart.options
+        assert_chart_type(options, "range")
+        assert_encode_fields(options, x="x", y="y", color="region")
+        assert_options_contains(
+            options,
+            {
+                "type": "range",
+                "data": TEST_DATA,
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "encode",
+            ],
+        )
+
+    def test_rangex_options_validation(self):
+        """验证 RangeX 图表的 JSON 配置结构正确性。"""
+        TEST_DATA = [
+            {"year": [1933, 1945], "event": "Nazi Rule"},
+        ]
+        chart = (
+            RangeX()
+            .set_data(data=TEST_DATA)
+            .set_encode(
+                x_field_name="year",
+                color_field="event",
+            )
+        )
+        options = chart.options
+        assert_chart_type(options, "rangeX")
+        assert_encode_fields(options, x="year", color="event")
+        assert_options_contains(
+            options,
+            {
+                "type": "rangeX",
+                "data": TEST_DATA,
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "encode",
+            ],
+        )
+
+    def test_rangey_options_validation(self):
+        """验证 RangeY 图表的 JSON 配置结构正确性。"""
+        TEST_DATA = [{"y": [54, 72]}]
+        chart = RangeY().set_data(data=TEST_DATA).set_encode(y_field_name="y")
+        options = chart.options
+        assert_chart_type(options, "rangeY")
+        assert_encode_fields(options, y="y")
+        assert_options_contains(
+            options,
+            {
+                "type": "rangeY",
+                "data": TEST_DATA,
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "encode",
+            ],
+        )

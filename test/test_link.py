@@ -1,3 +1,5 @@
+"""Link 连接图基础功能测试。"""
+
 import unittest
 
 from pyantv import options as opts
@@ -6,6 +8,12 @@ from pyantv.globals import ChartType
 from pyantv.commons.utils import JsCode
 
 from test import chart_base_test
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+    assert_encode_fields,
+)
 
 
 class TestLinkChart(unittest.TestCase):
@@ -87,6 +95,41 @@ class TestLinkChart(unittest.TestCase):
         )
 
         return view
+
+    def test_link_options_validation(self):
+        """验证 Link 图表的 JSON 配置结构正确性。"""
+        TEST_LINK_DATA = [
+            {"Date": "2020-01", "Low": 100, "High": 200, "Open": 120, "Close": 180},
+            {"Date": "2020-02", "Low": 110, "High": 210, "Open": 130, "Close": 170},
+        ]
+        link = (
+            Link()
+            .set_data(data=TEST_LINK_DATA)
+            .set_encode(
+                x_field_name="Date",
+                y_field_name=["Low", "High"],
+            )
+        )
+        options = link.options
+        assert_chart_type(options, "link")
+        assert_encode_fields(options, x="Date", y=["Low", "High"])
+        assert_options_contains(
+            options,
+            {
+                "type": "link",
+                "encode": {"x": "Date", "y": ["Low", "High"]},
+                "data": TEST_LINK_DATA,
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "encode.x",
+                "encode.y",
+            ],
+        )
 
     @chart_base_test(chart_type=ChartType.VIEW)
     def test_link_style(self):

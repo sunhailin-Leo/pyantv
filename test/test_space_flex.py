@@ -1,3 +1,5 @@
+"""SpaceFlex 弹性布局组合图测试。"""
+
 import unittest
 
 from pyantv import options as opts
@@ -6,6 +8,12 @@ from pyantv.commons.utils import JsCode
 from pyantv.globals import ChartType
 
 from test import chart_base_test
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+    ANY,
+)
 
 
 class TestSpaceFlexChart(unittest.TestCase):
@@ -116,3 +124,47 @@ class TestSpaceFlexChart(unittest.TestCase):
         )
 
         return c
+
+    def test_space_flex_options_validation(self):
+        """验证 SpaceFlex 图表的 JSON 配置结构正确性。"""
+        chart = (
+            SpaceFlex()
+            .set_data(
+                data=[
+                    {"date": "2024-01-01", "temp_max": 10, "temp_min": 5},
+                    {"date": "2024-01-02", "temp_max": 12, "temp_min": 6},
+                ]
+            )
+            .set_space_flex_children(
+                children=[
+                    Interval()
+                    .set_encode(
+                        x_field_name="date",
+                        y_field_name="temp_max",
+                    )
+                    .get_options()
+                ]
+            )
+        )
+
+        options = chart.options
+        assert_chart_type(options, "spaceFlex")
+        assert_options_contains(
+            options,
+            {
+                "type": "spaceFlex",
+                "data": [
+                    {"date": "2024-01-01", "temp_max": 10, "temp_min": 5},
+                    {"date": "2024-01-02", "temp_max": 12, "temp_min": 6},
+                ],
+                "children": ANY,
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "children",
+            ],
+        )

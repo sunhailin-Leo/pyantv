@@ -1,0 +1,37 @@
+name: "📚 Documentation"
+description: "Report docs issues or request docs improvements"
+title: "[Docs] "
+labels: ["documentation"]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: "Affected doc URL or file path"
+      placeholder: "docs/comparison.md 或 https://...."
+    validations:
+      required: true
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: "Issue type"
+      options:
+        - "Typo"
+        - "Wrong info"
+        - "Missing info"
+        - "Broken link"
+        - "Other"
+    validations:
+      required: true
+  - type: textarea
+    id: detail
+    attributes:
+      label: "Detail"
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: "Code of Conduct"
+      options:
+        - label: "I agree to follow this project's Code of Conduct"
+          required: true

@@ -1,3 +1,5 @@
+"""SpaceLayer 图层布局组合图测试。"""
+
 import unittest
 
 from pyantv import options as opts
@@ -6,6 +8,12 @@ from pyantv.commons.utils import JsCode
 from pyantv.globals import ChartType
 
 from test import chart_base_test
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+    ANY,
+)
 
 
 class TestSpaceLayerChart(unittest.TestCase):
@@ -78,3 +86,47 @@ class TestSpaceLayerChart(unittest.TestCase):
         )
 
         return c
+
+    def test_space_layer_options_validation(self):
+        """验证 SpaceLayer 图表的 JSON 配置结构正确性。"""
+        chart = (
+            SpaceLayer()
+            .set_data(
+                data=[
+                    {"letter": "A", "frequency": 10},
+                    {"letter": "B", "frequency": 20},
+                ]
+            )
+            .set_space_layer_children(
+                children=[
+                    Interval()
+                    .set_encode(
+                        x_field_name="letter",
+                        y_field_name="frequency",
+                    )
+                    .get_options()
+                ]
+            )
+        )
+
+        options = chart.options
+        assert_chart_type(options, "spaceLayer")
+        assert_options_contains(
+            options,
+            {
+                "type": "spaceLayer",
+                "data": [
+                    {"letter": "A", "frequency": 10},
+                    {"letter": "B", "frequency": 20},
+                ],
+                "children": ANY,
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "children",
+            ],
+        )

@@ -1,10 +1,30 @@
+"""ForceGraph 力导向图基础功能测试。"""
+
 import unittest
 
-from pyantv import options as opts
+import pyantv.options as opts
+
 from pyantv.charts import ForceGraph
 from pyantv.globals import ChartType
 
 from test import chart_base_test
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+)
+
+TEST_FORCE_GRAPH_DATA = {
+    "nodes": [
+        {"id": "0", "group": 1},
+        {"id": "1", "group": 1},
+        {"id": "2", "group": 2},
+    ],
+    "links": [
+        {"source": "0", "target": "1", "value": 1},
+        {"source": "1", "target": "2", "value": 2},
+    ],
+}
 
 
 class TestForceGraphChart(unittest.TestCase):
@@ -73,3 +93,23 @@ class TestForceGraphChart(unittest.TestCase):
         )
 
         return c
+
+    def test_force_graph_options_validation(self):
+        """验证 ForceGraph 图表的 JSON 配置结构正确性。"""
+        force_graph = ForceGraph().set_data(data=TEST_FORCE_GRAPH_DATA)
+        options = force_graph.options
+        assert_chart_type(options, "forceGraph")
+        assert_options_contains(
+            options,
+            {
+                "type": "forceGraph",
+                "data": TEST_FORCE_GRAPH_DATA,
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+            ],
+        )

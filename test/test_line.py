@@ -1,3 +1,5 @@
+"""Line 折线图基础功能测试。"""
+
 import unittest
 
 from pyantv import options as opts
@@ -6,6 +8,13 @@ from pyantv.commons.utils import JsCode
 from pyantv.globals import ChartType
 
 from test import chart_base_test
+from test.test_helpers import (
+    assert_options_contains,
+    assert_options_structure,
+    assert_chart_type,
+    assert_encode_fields,
+    ANY,
+)
 
 TEST_LINE_DATA = [
     {"year": "1991", "value": 3},
@@ -24,16 +33,13 @@ class TestLineChart(unittest.TestCase):
 
     @chart_base_test(chart_type=ChartType.VIEW)
     def test_line_base(self):
-        line = (
-            Line()
-            .set_global_options(
-                label_opts=[
-                    opts.LabelOpts(
-                        text_opts="value",
-                        style_opts=opts.BaseChartStyleOpts(dx=-10, dy=-12),
-                    )
-                ]
-            )
+        line = Line().set_global_options(
+            label_opts=[
+                opts.LabelOpts(
+                    text_opts="value",
+                    style_opts=opts.BaseChartStyleOpts(dx=-10, dy=-12),
+                )
+            ]
         )
 
         point = Point().set_global_options(
@@ -239,3 +245,97 @@ class TestLineChart(unittest.TestCase):
         )
 
         return c
+
+    def test_line_options_validation(self):
+        """验证 Line 图表的 JSON 配置结构正确性。"""
+        line = (
+            Line()
+            .set_data(data=TEST_LINE_DATA)
+            .set_encode(x_field_name="year", y_field_name="value")
+        )
+
+        options = line.options
+
+        assert_chart_type(options, "line")
+        assert_encode_fields(options, x="year", y="value")
+        assert_options_contains(
+            options,
+            {
+                "type": "line",
+                "encode": {"x": "year", "y": "value"},
+                "data": TEST_LINE_DATA,
+            },
+        )
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "encode.x",
+                "encode.y",
+            ],
+        )
+
+    def test_line_with_label_options_validation(self):
+        """验证 Line 图表带 label 配置的 JSON 结构正确性。"""
+        line = (
+            Line()
+            .set_data(data=TEST_LINE_DATA)
+            .set_encode(x_field_name="year", y_field_name="value")
+            .set_global_options(
+                label_opts=[
+                    opts.LabelOpts(
+                        text_opts="value",
+                        style_opts=opts.BaseChartStyleOpts(dx=-10, dy=-12),
+                    )
+                ]
+            )
+        )
+
+        options = line.options
+
+        assert_chart_type(options, "line")
+        assert_encode_fields(options, x="year", y="value")
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "encode.x",
+                "encode.y",
+                "labels",
+            ],
+        )
+        assert_options_contains(
+            options,
+            {
+                "labels": ANY,
+            },
+        )
+
+    def test_line_with_scale_options_validation(self):
+        """验证 Line 图表带 scale 配置的 JSON 结构正确性。"""
+        line = (
+            Line()
+            .set_data(data=TEST_LINE_DATA)
+            .set_encode(x_field_name="year", y_field_name="value")
+            .set_scale(
+                x_scale_opts=opts.ScaleBandOpts(range_=[0, 1]),
+                y_scale_opts=opts.ScaleLinearOpts(domain_min=0, is_nice=True),
+            )
+        )
+
+        options = line.options
+
+        assert_chart_type(options, "line")
+        assert_options_structure(
+            options,
+            [
+                "type",
+                "data",
+                "encode.x",
+                "encode.y",
+                "scale.x",
+                "scale.y",
+            ],
+        )
