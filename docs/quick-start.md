@@ -24,7 +24,9 @@ pip install 'pyantv[all]'          # 以上用户向特性一次到位
 git clone https://github.com/sunhailin-Leo/pyantv.git
 cd pyantv
 
-# 一键安装所有 dev + 用户向特性（等价于 pip install uv && uv sync --dev --extra all）
+# 一键安装所有 dev/test 依赖 + 用户向特性
+# 等价于：pip install uv && uv sync --group dev --group test --extra all
+# （dev/test/docs 自 Sprint 74 起迁移到 PEP 735 [dependency-groups]）
 make uv-install
 
 # 首次生成或更新 uv.lock（lock 文件会提交到 git，保证跨机器可重现构建）
@@ -33,13 +35,18 @@ make uv-lock
 
 ### 开发者：纯 pip fallback
 
-若无法使用 uv，可以退回到纯 pip 方式：
+若无法使用 uv，可以退回到纯 pip 方式（**需要 pip >= 25.1** 才支持 `--group` 参数）：
 
 ```bash
-pip install -e '.[dev,test,all]'
+pip install --upgrade pip                                      # 确保 pip >= 25.1
+pip install -e '.[all]' --group dev --group test --group docs
 # 或等价的 Makefile 目标：
 make install-dev
 ```
+
+> 旧版 `pip install -e '.[dev,test,all]'` 自 Sprint 74 起不再可用，因为 `dev`/`test`/`docs`
+> 已经从 `[project.optional-dependencies]` 迁移到 `[dependency-groups]`（PEP 735），
+> 这是 uv/pip 官方主推的现代写法，且开发依赖不会再污染 PyPI 包元数据。
 
 ### 发布到 PyPI（维护者）
 

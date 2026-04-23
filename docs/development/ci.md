@@ -39,7 +39,9 @@ pyantv 在 GitHub Actions 上维护 **3 个 workflow**：
 - **本地复现**：
 
   ```shell
-  pip install -e '.[docs]'   # 或 uv sync --extra docs
+  uv sync --group docs       # 推荐
+  # 或纯 pip（需要 pip >= 25.1）：
+  pip install -e . --group docs
   make docs-build
   ```
 
@@ -54,7 +56,7 @@ pyantv 在 GitHub Actions 上维护 **3 个 workflow**：
   - Python：`3.8`、`3.9`、`3.10`、`3.11`、`3.12`、`3.13`
 - **依赖**：`needs: lint`
 - **执行步骤**：
-  1. `uv sync --dev --extra all --extra test` 安装完整开发依赖
+  1. `uv sync --group dev --group test --extra all` 安装完整开发依赖（dev/test 走 PEP 735 [dependency-groups]）
   2. `uv run python -m build` 构建 sdist + wheel（PEP 517）
   3. `uv run pytest -v --cov-config=.coveragerc --cov=./ --cov-fail-under=95 test/`
      — 覆盖率不到 95% 直接失败
@@ -78,7 +80,7 @@ pyantv 在 GitHub Actions 上维护 **3 个 workflow**：
 build job:
   ↓ checkout（fetch-depth: 0，给 setuptools-scm 完整 git 历史）
   ↓ setup Python 3.12
-  ↓ uv sync --extra docs
+  ↓ uv sync --group docs
   ↓ uv run mkdocs build --strict --site-dir site
   ↓ actions/upload-pages-artifact@v3
 
@@ -143,9 +145,9 @@ deploy job (needs: build):
 
 ### Q3：本地 `make docs-build` 报 `mkdocs: command not found`
 
-**原因**：本地没装 `docs` extra。
+**原因**：本地没装 `docs` 依赖组。
 
-**解决**：`pip install -e '.[docs]'` 或 `uv sync --extra docs`。
+**解决**：`uv sync --group docs`（推荐）；或 `pip install -e . --group docs`（需 pip >= 25.1）。
 
 ### Q4：CI 上 `lint` 失败但本地通过
 

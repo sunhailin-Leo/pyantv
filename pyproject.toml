@@ -50,31 +50,13 @@ dependencies = [
 
 [project.optional-dependencies]
 # ---- 用户向分组（pip install pyantv[xxx]） ----
+# 这里只放运行时可选依赖。开发/测试/文档相关依赖请见下方 [dependency-groups]。
 pandas = ["pandas>=1.0.0"]
 numpy = ["numpy>=1.20.0"]
 export = ["playwright>=1.40.0"]
 streamlit = ["streamlit>=1.0.0"]
 notebook = ["ipywidgets>=7.0", "ipython>=7.0"]
 offline = ["requests>=2.25.0"]
-# ---- 开发/文档/测试向分组 ----
-docs = ["mkdocs>=1.5.0", "mkdocs-material>=9.0.0"]
-test = [
-    "pytest>=7.0.0",
-    "pytest-cov>=4.0.0",
-    "playwright>=1.40.0",
-    "pillow>=9.0.0",
-    "pytest-benchmark>=4.0.0",
-    "hypothesis>=6.0.0",
-    "scikit-image>=0.19.0",
-]
-dev = [
-    "black>=25.0.0",
-    "isort>=5.13.0",
-    "flake8>=6.0.0",
-    "mypy>=1.0.0",
-    "build>=0.10.0",
-    "twine>=4.0.0",
-]
 # ---- 聚合分组：只包含"用户向"分组，不含 dev/test/docs（避免带入 500MB+ 开发依赖）----
 all = [
     "pandas>=1.0.0",
@@ -84,6 +66,38 @@ all = [
     "ipywidgets>=7.0",
     "ipython>=7.0",
     "requests>=2.25.0",
+]
+
+# ---------------------------------------------------------------------------
+# PEP 735 dependency groups（开发向，仅本地/CI 使用，不会进入 wheel）
+# ---------------------------------------------------------------------------
+# 安装方式：
+#   uv sync --group dev                   # 仅 lint/格式化/构建工具
+#   uv sync --group test                  # 仅运行单元测试
+#   uv sync --group docs                  # 仅构建 MkDocs 文档
+#   uv sync --group dev --group test --extra all   # 完整 CI 矩阵
+# 兼容性：uv >= 0.5.0、pip >= 25.1 均原生支持 [dependency-groups]。
+[dependency-groups]
+dev = [
+    "black>=25.0.0",
+    "isort>=5.13.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "build>=0.10.0",
+    "twine>=4.0.0",
+]
+test = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "playwright>=1.40.0",
+    "pillow>=9.0.0",
+    "pytest-benchmark>=4.0.0",
+    "hypothesis>=6.0.0",
+    "scikit-image>=0.19.0",
+]
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.0.0",
 ]
 
 [project.urls]

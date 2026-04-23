@@ -15,12 +15,13 @@
 git clone https://github.com/sunhailin-Leo/pyantv.git
 cd pyantv
 
-# 使用 uv 安装（推荐）
+# 使用 uv 安装（推荐，CI 同构）
 pip install uv
-uv sync --dev --extra all
+uv sync --group dev --group test --extra all
 
-# 或者使用 pip 安装（fallback）
-pip install -e '.[dev,test,all]'
+# 或者使用 pip 安装（fallback，需要 pip >= 25.1 才支持 --group）
+pip install --upgrade pip
+pip install -e '.[all]' --group dev --group test --group docs
 ```
 
 安装完成后，你可以运行以下命令验证环境：

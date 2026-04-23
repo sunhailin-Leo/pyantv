@@ -13,8 +13,8 @@ help:
 	@echo "  bench        -- run performance benchmarks"
 	@echo "  check        -- run lint + test (full quality gate)"
 	@echo "  install      -- install the package in editable mode"
-	@echo "  install-dev  -- install all dev/test/all extras via pip (fallback)"
-	@echo "  uv-install   -- install uv and sync dev + all extras via uv"
+	@echo "  install-dev  -- install all dev/test/docs/all dependency groups via pip (requires pip>=25.1)"
+	@echo "  uv-install   -- install uv and sync dev group + all extras via uv"
 	@echo "  uv-lock      -- regenerate uv.lock (commit this file to git)"
 	@echo "  publish      -- build + twine upload dist/* (replaces 'setup.py upload')"
 	@echo "  docs         -- serve documentation locally (requires mkdocs)"
@@ -54,14 +54,14 @@ install:
 # -----------------------------------------------------------------------------
 .PHONY: install-dev
 install-dev:
-	@pip install -e '.[dev,test,all]'
-	@echo "Development dependencies installed via pip (fallback)."
+	@pip install -e '.[all]' --group dev --group test --group docs
+	@echo "Development dependencies installed via pip (requires pip>=25.1 for --group)."
 
 .PHONY: uv-install
 uv-install:
 	@pip install uv
-	@uv sync --dev --extra all
-	@echo "Development dependencies installed via uv."
+	@uv sync --group dev --group test --extra all
+	@echo "Development dependencies installed via uv (PEP 735 dependency groups)."
 
 .PHONY: uv-lock
 uv-lock:

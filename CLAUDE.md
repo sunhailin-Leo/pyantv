@@ -8,6 +8,27 @@ pyantv is a Python visualization library that generates AntV G2 charts. It provi
 
 ## Build, Test, and Lint Commands
 
+### Install dev dependencies (recommended: uv with PEP 735 dependency groups)
+
+```bash
+# uv path (CI uses the same commands)
+pip install uv
+uv sync --group dev --group test --extra all
+# Or via Makefile:
+make uv-install
+
+# Pure pip fallback (requires pip >= 25.1 for --group support)
+pip install -e '.[all]' --group dev --group test --group docs
+# Or via Makefile:
+make install-dev
+```
+
+> Note: dev / test / docs dependencies live under `[dependency-groups]` (PEP 735),
+> not `[project.optional-dependencies]`. So `uv sync --dev` and
+> `pip install -e '.[dev]'` are no longer valid — always use `--group <name>`.
+
+### Test / Lint / Build
+
 ```bash
 # Run all tests
 make test
@@ -29,10 +50,10 @@ flake8 --exclude=build,example,.venv,examples --max-line-length=89
 black .
 isort .
 
-# Build package
+# Build package (PEP 517)
 make build
 # or
-python setup.py sdist bdist_wheel
+python -m build
 ```
 
 ## Architecture Overview

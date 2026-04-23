@@ -1,14 +1,16 @@
 # ---------------------------------------------------------------------------
-# ⚠️ DEPRECATED（Sprint 62 起）：pyproject.toml 已成为依赖声明的 Single Source of Truth。
+# ⚠️ DEPRECATED（Sprint 62 起，Sprint 74 起 dev/test/docs 迁移到 PEP 735）：
+# pyproject.toml 已成为依赖声明的 Single Source of Truth。
 # 本文件仅保留用于向后兼容，推荐的安装方式是：
 #
 #     # 推荐：uv（CI 必装，可重现构建）
-#     pip install uv && uv sync --dev --extra all
+#     pip install uv && uv sync --group dev --group test --extra all
 #     # 或等价于：
 #     make uv-install
 #
-#     # Fallback：纯 pip
-#     pip install -e '.[dev,test,all]'
+#     # Fallback：纯 pip（需要 pip >= 25.1 才支持 --group）
+#     pip install --upgrade pip
+#     pip install -e '.[all]' --group dev --group test --group docs
 #     # 或等价于：
 #     make install-dev
 #
