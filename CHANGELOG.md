@@ -48,6 +48,9 @@
 - **Property-based 测试**：集成 Hypothesis（`test/test_hypothesis_properties.py`，17 个测试），通过 `HYPOTHESIS_PROFILE` 环境变量切换 dev / ci / exhaustive 三档
 - **性能基线测试**：新增 `test/test_performance.py` 与 `test/baselines/perf_baseline.json`，本地 / CI 阈值分层（500ms / 800ms），通过 `CI` 环境变量自动切换；`benchmarks/bench_render.py` 扩展 `html_size` / `compact_vs_pretty` / `downsample` 三组基准
 - **依赖分组**：`optional-dependencies` 扩充到 10 个分组（pandas / numpy / export / streamlit / notebook / offline / docs / test / dev / all）；`all` 仅包含"用户向"分组，避免拉入 500MB+ 开发依赖
+- **Plotly Dash 集成**：新增 `pyantv.web.to_dash(chart, width, height, style)`，将 pyantv 图表渲染为 Plotly Dash 的 `html.Iframe` 组件（`srcDoc` 沙盒执行内联 G2 脚本，绕过 React 对内联脚本的剥离）；对齐 Flask / Sanic / Django / Streamlit 集成范式，懒加载 `dash`，未安装时抛带 `pip install dash` 提示的 `ImportError`。新增 `pip install pyantv[dash]` 可选依赖组（Sprint 74，对应 Issue #3）
+
+
 
 ### Changed
 
