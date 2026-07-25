@@ -271,8 +271,11 @@ def test_dynamic_version_configured(pyproject_data: dict) -> None:
         "dynamic", []
     ), "pyproject.toml 必须声明 dynamic = ['version']"
     # 版本由 setuptools-scm 管理，不应存在 [tool.setuptools.dynamic].version
-    scm_cfg = pyproject_data.get("tool", {}).get("setuptools-scm", {})
-    assert scm_cfg, "pyproject.toml 必须配置 [tool.setuptools-scm] " "来管理动态版本"
+    # 注意：setuptools-scm v10 起官方键名为 [tool.setuptools_scm]（下划线）；
+    # 为兼容旧写法仍可能用连字符，此处两者皆接受（与 pyproject 实际配置对齐）。
+    tool_cfg = pyproject_data.get("tool", {})
+    scm_cfg = tool_cfg.get("setuptools-scm") or tool_cfg.get("setuptools_scm") or {}
+    assert scm_cfg, "pyproject.toml 必须配置 [tool.setuptools-scm] 来管理动态版本"
     assert (
         scm_cfg.get("write_to") == "pyantv/_version.py"
     ), "setuptools-scm.write_to 必须是 'pyantv/_version.py'"

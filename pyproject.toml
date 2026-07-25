@@ -60,6 +60,7 @@ export = ["playwright>=1.40.0"]
 streamlit = ["streamlit>=1.0.0"]
 notebook = ["ipywidgets>=7.0", "ipython>=7.0"]
 offline = ["requests>=2.25.0"]
+dash = ["dash>=2.0.0"]
 # ---- 聚合分组：只包含"用户向"分组，不含 dev/test/docs（避免带入 500MB+ 开发依赖）----
 all = [
     "pandas>=1.0.0",
@@ -69,6 +70,7 @@ all = [
     "ipywidgets>=7.0",
     "ipython>=7.0",
     "requests>=2.25.0",
+    "dash>=2.0.0",
 ]
 
 # ---------------------------------------------------------------------------

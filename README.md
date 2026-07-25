@@ -358,6 +358,23 @@ line = (
 st_pyantv(line, height=400)
 ```
 
+### Plotly Dash 集成
+
+```python
+import dash
+from pyantv import Line
+from pyantv.web import to_dash
+
+line = (
+    Line()
+    .set_data(data=[{"x": 1, "y": 2}, {"x": 2, "y": 5}])
+    .set_encode(x_field_name="x", y_field_name="y")
+)
+
+app = dash.Dash(__name__)
+app.layout = dash.html.Div([to_dash(line, height="400px")])
+```
+
 ### 图表导出
 
 ```python
